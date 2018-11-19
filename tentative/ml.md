@@ -4,6 +4,8 @@ can be used to answer the project question. Were there any outliers 
 you got it, and how did you handle those?  [relevant rubric items: “data exploration”, 
 “outlier investigation”] 
  
+ 
+ 
 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
 assignment, you should attempt to engineer your own feature that does not come 
