@@ -32,3 +32,10 @@ did you validate your analysis?  [relevant rubric item: “validation 
 6. Give at least 2 evaluation metrics and your average performance for each of them. 
 Explain an interpretation of your metrics that says something human­understandable 
 about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”] 
+
+
+
+plan:
+1. I will finish understand the targetted dataset for each miniproject.
+2. I do the py file in cloud.
+3. I finish this summary.
