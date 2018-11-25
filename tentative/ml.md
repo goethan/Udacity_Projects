@@ -38,18 +38,46 @@ The goal of this project is to develop a predictive model that helps identify a 
 The features extracted from enron data belong to one of the 3 categories:
 
 - financial features (independent variables)
-  - ```python
-  financial_features_list = ['salary', 'deferral_payments', 'total_payments',\
+  - `financial_features_list = ['salary', 'deferral_payments', 'total_payments',\
                            'loan_advances', 'bonus', 'restricted_stock_deferred', \
                            'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', \
-                           'other', 'long_term_incentive', 'restricted_stock', 'director_fees']```
+                           'other', 'long_term_incentive', 'restricted_stock', 'director_fees']`
 - email features (independent variables)
-  -```python
-  email_features_list = ['to_messages', 'email_address', 'from_poi_to_this_person', \
-                         'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']
-  ```
+  - `email_features_list = ['to_messages', 'email_address', 'from_poi_to_this_person', \
+                         'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']`
 
 - `poi` (dependent variable/label)
+
+As a quick summary, the dataset 
+- contains a total of 146 data points, of which 18 are POIs and 128 are not .
+- There are 14 financial features, 6 email features.
+
+### Looking into missing data.
+
+|             | frac_missing_for_non-poi | frac_missing_for_poi	| frac_missing_total |
+|-------------|--------------------------|----------------------|--------------------|
+|loan_advances|	0.976562	               |0.944444	            |0.972603            |
+|director_fees|	0.867188	               |1.000000	            |0.883562            |
+|restricted_stock_deferred|	0.859375	   |1.000000	            |0.876712            |
+|deferral_payments| 0.734375	| 0.722222	| 0.732877|
+|deferred_income|	0.703125	| 0.388889	| 0.664384|
+|long_term_incentive|	0.578125	0.333333	0.547945|
+|bonus|	0.484375	| 0.111111	| 0.438356|
+|from_messages|	0.437500	| 0.222222	| 0.410959|
+|to_messages|	0.437500	| 0.222222	| 0.410959|
+|from_poi_to_this_person|	0.437500|	0.222222|	0.410959|
+|shared_receipt_with_poi|	0.437500|	0.222222|	0.410959|
+|from_this_person_to_poi|	0.437500|	0.222222|	0.410959|
+|other| 0.414062	| 0.000000	| 0.363014|
+|expenses|	0.398438	|0.000000	| 0.349315|
+|salary|	0.390625	| 0.055556	|0.349315|
+|exercised_stock_options|	0.296875	|0.333333	|0.301370|
+|restricted_stock|	0.273438	|0.055556|	0.246575|
+|email_address|	0.273438	|0.000000|	0.239726|
+|total_payments|	0.164062	|0.000000|	0.143836|
+|total_stock_value|	0.156250|	0.000000|	0.136986|
+|poi|	0.000000|	0.000000|	0.000000|
+
 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
 assignment, you should attempt to engineer your own feature that does not come 
