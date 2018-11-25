@@ -28,13 +28,28 @@ In this README.md document, you could find the answers for all the project quest
 
 ## Data Exploration
 
-1. Summarize for us the goal of this project and how machine learning is useful in trying to 
+> 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
 accomplish it. As part of your answer, give some background on the dataset and how it 
 can be used to answer the project question. Were there any outliers in the data when 
 you got it, and how did you handle those? 
 
-The main goal of this project is to use both financial and email data from Enron to build a predictive model that could potentially identify a "person of interest" (POI), i.e. Enron employees who may have committed fraud, based on the aforementioned public data.
+The goal of this project is to develop a predictive model that helps identify a POI (person of interest). A POI is a former Enron employee who may have been related to fraud, based on the enron data which comprise both financial and emails information of the employees.
 
+The features extracted from enron data belong to one of the 3 categories:
+
+- financial features (independent variables)
+  - ```python
+  financial_features_list = ['salary', 'deferral_payments', 'total_payments',\
+                           'loan_advances', 'bonus', 'restricted_stock_deferred', \
+                           'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', \
+                           'other', 'long_term_incentive', 'restricted_stock', 'director_fees']```
+- email features (independent variables)
+  -```python
+  email_features_list = ['to_messages', 'email_address', 'from_poi_to_this_person', \
+                         'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']
+  ```
+
+- `poi` (dependent variable/label)
 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
 assignment, you should attempt to engineer your own feature that does not come 
