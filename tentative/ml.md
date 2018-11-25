@@ -8,19 +8,25 @@ This machine learning project is part of the Udacity Data Analyst Nanodegree. So
   - [Part III](https://cdn.rawgit.com/brbisheng/Udacity_Projects/5ed5e4f7/Sheng_BI_EDA_Prosper_Part3.html)
 - [Data Wrangling](https://cdn.rawgit.com/brbisheng/Udacity_Projects/9d73b4c6/Final_Report.html)
 
+Enron, established in 1985, was one of the largest US energy companies. At the end of 2001, it was discovered that its reported financial condition was actually sustained by creatively planned accounting fraud. The company collapsed into bankruptcy in 2002 due to widespread corporate fraud. During the federal investigation, confidential information was made public, including massive emails and detailed financial data for executives.
 
-In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives. In this project, you will play detective, and put your new skills to use by building a person of interest identifier based on financial and email data made public as a result of the Enron scandal. To assist you in your detective work, we've combined this data with a hand-generated list of persons of interest in the fraud case, which means individuals who were indicted, reached a settlement or plea deal with the government, or testified in exchange for prosecution immunity.
+We will build a POI (Person of Interest) identifier to spot culpable individuals involved in enron scandal. We will machine learning techniques and the scikit-learn Python library.
 
-In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, there was a significant amount of typically confidential information entered into public record, including tens of thousands of emails and detailed financial data for top executives.
-The goal of this project was to build a prediction model to identify persons-of-interest (POI’s.) using scikit learn, numpy, and pandas modules in Python. The target of the predictions were persons-of-interest (POI’s) who were individuals who were indicted, reached a settlement, or plea deal with the government, or testified in exchange for prosecution immunity. Financial compensation data and aggregate email statistics from the Enron Corpus were used as features for prediction.
+Resources¶
+We will have a few resources to ease the process:
 
-In 2000, Enron was one of the largest companies in the United States. By 2002, it had collapsed into bankruptcy due to widespread corporate fraud. In the resulting Federal investigation, a significant amount of typically confidential information entered into the public record, including tens of thousands of emails and detailed financial data for top executives.
+final_project_dataset.pkl is the dataset we're going to investigate
+Starter code and helper functions are provided: it reads in the data, takes our features of choice, then puts them into a numpy array (the format sklearn functions assume). We just have to engineer the features, pick and tune an algorithm, and to test and evaluate our identifier. For example:
+featureFormat() to convert the dictionary into a numpy array of features: this is the only way we can make it work with Scickit Learn.
+targetFeatureSplit(), to separate the feature (returned by featureFormat()) we want to predict from the others.
+Data is preprocessed: Enron email and financial data are combined into a dictionary, where each key-value pair in the dictionary corresponds to one person. The dictionary key is the person's name, and the value is another dictionary, which contains the names of all the features and their values for that person. The features in the data fall into three major types, namely financial features, email features and POI labels.
 
-Using all the concepts and ideas learned through the Introduction to Machine Learning module within the Udacity's Data Analyst NanoDegree, this project will use the scikit-learn Python library and machine learning techniques to predict and spot culpable persons of the Enron scandal.
+financial features: ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees'] (all units are in US dollars)
 
-Enron, one of the largest US companies, collapsed into bankruptcy in 2002 due to widespread corporate fraud. As a result of the federal investigation, confidential information was made public, including emails and financial data for executives.
+email features: ['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi'] (units are generally number of emails messages; notable exception is ‘email_address’, which is a text string)
 
-We will build a POI (Person of Interest) identifier to extract individuals involved in the fraud from the data. We will use machine learning and sklearn to do so.
+POI label: [‘poi’] (boolean, represented as integer)
+
 
 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
 accomplish it. As part of your answer, give some background on the dataset and how it 
