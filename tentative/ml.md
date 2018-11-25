@@ -1,8 +1,8 @@
 # Identify Fraud From Enron Financial/Emails Data
 
 This machine learning project is part of the the Udacity Data Analyst Nanodegree. Some other projects could be found below:
-- 
-- 
+- [Titanic Data EDA](https://cdn.rawgit.com/brbisheng/ProgrammingFoundations/06081bf9/Final_stage/Titanic_final_Sheng_BI_IPND_1st_modification.html) 
+- Prosper Data EDA
 
 
 
