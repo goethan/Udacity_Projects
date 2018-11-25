@@ -1,11 +1,15 @@
+# Identify Fraud From Enron Financial/Emails Data
+
+Project 5 Machine Learning — Udacity Data Analyst Nanodegree
+
+
 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
 accomplish it. As part of your answer, give some background on the dataset and how it 
 can be used to answer the project question. Were there any outliers in the data when 
-you got it, and how did you handle those?  [relevant rubric items: “data exploration”, 
-“outlier investigation”] 
- 
- 
- 
+you got it, and how did you handle those? 
+
+The main goal of this project is to use both financial and email data from Enron to build a predictive model that could potentially identify a "person of interest" (POI), i.e. Enron employees who may have committed fraud, based on the aforementioned public data.
+
 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
 assignment, you should attempt to engineer your own feature that does not come 
