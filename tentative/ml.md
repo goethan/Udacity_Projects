@@ -54,6 +54,8 @@ As a quick summary, the dataset
 
 ### Looking into missing data.
 
+We notice significant amount of 'NaN's in data. Below is a table showing the fraction of missing values per feature.
+
 |             | frac_missing_for_non-poi | frac_missing_for_poi	| frac_missing_total |
 |-------------|--------------------------|----------------------|--------------------|
 |loan_advances|	0.976562	               |0.944444	            |0.972603            |
@@ -61,7 +63,7 @@ As a quick summary, the dataset
 |restricted_stock_deferred|	0.859375	   |1.000000	            |0.876712            |
 |deferral_payments| 0.734375	| 0.722222	| 0.732877|
 |deferred_income|	0.703125	| 0.388889	| 0.664384|
-|long_term_incentive|	0.578125	0.333333	0.547945|
+|long_term_incentive|	0.578125	|0.333333	|0.547945|
 |bonus|	0.484375	| 0.111111	| 0.438356|
 |from_messages|	0.437500	| 0.222222	| 0.410959|
 |to_messages|	0.437500	| 0.222222	| 0.410959|
@@ -77,6 +79,16 @@ As a quick summary, the dataset
 |total_payments|	0.164062	|0.000000|	0.143836|
 |total_stock_value|	0.156250|	0.000000|	0.136986|
 |poi|	0.000000|	0.000000|	0.000000|
+
+At this point, we can not discard any data, because the 'NaN's may not necessarily represent missing data. From the  they may also represent 0 for most of the cases. Hence, the 'NaN's may help us make influential predictions. 
+
+This conjecture is later verified by the predictive accuracy of the model.
+
+At this point no data will be discarded, waiting until further Feature Selection to spot the most influential features. Despite, for the financial features, one way to interpret the NaNs is that they are equivalent to a zero.
+
+There is a case to be made that if an employee did not receive restricted stock, the value could be zero. On top of that, this hypothesis is also supported by the insider-pay.pdf, that can be found in the misc folder, in how the totals are calculated.
+
+For these reasons, NaN values in only financial features will be replaced by zeros.
 
 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
