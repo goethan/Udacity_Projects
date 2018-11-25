@@ -12,21 +12,21 @@ Enron, established in 1985, was one of the largest US energy companies. At the e
 
 We will build a POI (Person of Interest) identifier to spot culpable individuals involved in enron scandal. We will machine learning techniques and the scikit-learn Python library.
 
-Resources¶
-We will have a few resources to ease the process:
+## Contents of The Project
 
-final_project_dataset.pkl is the dataset we're going to investigate
-Starter code and helper functions are provided: it reads in the data, takes our features of choice, then puts them into a numpy array (the format sklearn functions assume). We just have to engineer the features, pick and tune an algorithm, and to test and evaluate our identifier. For example:
-featureFormat() to convert the dictionary into a numpy array of features: this is the only way we can make it work with Scickit Learn.
-targetFeatureSplit(), to separate the feature (returned by featureFormat()) we want to predict from the others.
-Data is preprocessed: Enron email and financial data are combined into a dictionary, where each key-value pair in the dictionary corresponds to one person. The dictionary key is the person's name, and the value is another dictionary, which contains the names of all the features and their values for that person. The features in the data fall into three major types, namely financial features, email features and POI labels.
+The structure of the code is as follows:
 
-financial features: ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees'] (all units are in US dollars)
+- `poi_id.py`: main script
+- `myhelpers.py`: contains all the helper funtions used in `poi_id.py`.
+- `tester.py`: contains code for testing the algorithm performance
 
-email features: ['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi'] (units are generally number of emails messages; notable exception is ‘email_address’, which is a text string)
+In this README.md document, you could find the answers for all the project questions. This README.md consists of 3 parts:
 
-POI label: [‘poi’] (boolean, represented as integer)
+- Data Exploration: we describe data, identify and remove outliers
+- Features Section: we create and select features using appropriate statistical methods.
+- Algorithm Tuning: we tune parameters for each classifer and validate our model.
 
+## Data Exploration
 
 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
 accomplish it. As part of your answer, give some background on the dataset and how it 
