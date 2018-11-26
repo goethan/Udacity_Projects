@@ -52,7 +52,7 @@ As a quick summary, the dataset
 - contains a total of 146 data points, of which 18 are POIs and 128 are not .
 - There are 14 financial features, 6 email features.
 
-### Looking into missing data.
+### Looking into NaN data.
 
 We notice significant amount of 'NaN's in data. Below is a table showing the fraction of missing values per feature.
 
@@ -80,15 +80,11 @@ We notice significant amount of 'NaN's in data. Below is a table showing the fra
 |total_stock_value|	0.156250|	0.000000|	0.136986|
 |poi|	0.000000|	0.000000|	0.000000|
 
-At this point, we can not discard any data, because the 'NaN's may not necessarily represent missing data. For example, if there are no director fees, the value of this variable could be zero.  they may also represent 0 for most of the cases. Hence, the 'NaN's may help us make influential predictions. 
+We can not discard any data at this point, because the 'NaN's may not necessarily represent missing data. Indeed, they may well represent that the variable in question is of value zero. For example, if there are no director fees, the value of this variable should be zero, thus replacing the 'NaN's by zero may help us make influential predictions. This conjecture is supported by the `variable-descriptioin.pdf` document here, which gives information on how each variable is formed. We thus will proceed with the NaN's being replaced by zero.
 
-This conjecture is later verified by the predictive accuracy of the model.
+### Outliers
 
-At this point no data will be discarded, waiting until further Feature Selection to spot the most influential features. Despite, for the financial features, one way to interpret the NaNs is that they are equivalent to a zero.
-
-There is a case to be made that if an employee did not receive restricted stock, the value could be zero. On top of that, this hypothesis is also supported by the insider-pay.pdf, that can be found in the misc folder, in how the totals are calculated.
-
-For these reasons, NaN values in only financial features will be replaced by zeros.
+To spot potential outliers, we start by plotting the scatterplot of the two most interesting variabels: salary and bonus.
 
 > 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
