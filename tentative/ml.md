@@ -85,6 +85,7 @@ We can not discard any data at this point, because the 'NaN's may not necessaril
 ### Outliers
 
 To spot potential outliers, we start by plotting the scatterplot of the two most interesting variabels: salary and bonus.
+![alt text](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bous-scatterplot.png)
 
 > 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
