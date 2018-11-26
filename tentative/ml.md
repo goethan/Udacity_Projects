@@ -111,9 +111,46 @@ and reasons for your choice of parameter values.
 
 Given that this is a classification problem, I used the `SelectKBest` from sklearn package to filter features based on their scores. I considered two score functions `f_classif` and `mutual_info_classif`, for each of which I extracted the 15 features with highest scores. I then select 10 features which have high scores both for  
 
+
 to select best 10 influential features and used those featuers for all the upcoming algorithm. Unsurprisingly, 9 out of 10 features related to financial data and only 1 features called shared_receipt_with_poi (messages from/to the POI divided by to/from messages from the person) were attempted to engineere by us. Main purpose of composing ratio of POI message is we expect POI contact each other more often than non-POI and the relationship could be non-linear. The initial assumption behind these features is: the relationship between POI is much more stronger than between POI and non-POIs, and if we quickly did back-of-the-envelope Excel scatter plot, there might be truth to that hypothesis. The fact that shared_receipt_with_poi is included after using SelectKBest proved that this is a crucial features, as they also slightly increased the precision and recall of most of the machine learning algorithms used in later part of the analysis (e.g precision & recall for Support Vector Classifer before adding new feature are 0.503 & 0.223 respectively, while after adding new feature, the results are 0.504 & 0.225)
 
 After feature engineering & using SelectKBest, I then scaled all features using min-max scalers. As briefly investigated through exporting CSV, we can see all email and financial data are varied by several order of magnitudes. Therefore, it is vital that we feature-scaling for the features to be considered evenly. For a comprehensive look on the chosen features, we can look at their respective score after using SelectKBest by the table below:
+
+|ranking|features     |f_classif_scores|
+|---|-------------|------|
+| 1|  exercised_stock_options|  24.815080|
+| 2|        total_stock_value|  24.182899|
+| 3|                    bonus|  20.792252|
+| 4|                   salary|  18.289684|
+| 5|               total_gain|  16.993600|
+| 6|          fraction_to_poi|  16.409713|
+| 7|          deferred_income|  11.458477|
+| 8|      long_term_incentive|   9.922186|
+| 9|         restricted_stock|   9.212811|
+|10|           total_payments|   8.772778|
+|11|  shared_receipt_with_poi|   8.589421|
+|12|            loan_advances|   7.184056|
+|13|                 expenses|   6.094173|
+|14|             fraction_poi|   5.399370|
+|15|  from_poi_to_this_person|   5.243450|
+
+|ranking|features     |mutual_info_classif_scores|
+|---|-------------|------|
+| 1|               total_gain|  0.080709|
+| 2|  shared_receipt_with_poi|  0.079434|
+| 3|                    bonus|  0.072514|
+| 4|                 expenses|  0.069550|
+| 5|                    other|  0.064712|
+| 6|          fraction_to_poi|  0.062894|
+| 7|        total_stock_value|  0.042176|
+| 8|            director_fees|  0.035012|
+| 9|             fraction_poi|  0.034353|
+|10|         restricted_stock|  0.032661|
+|11|                   salary|  0.026473|
+|12|        fraction_from_poi|  0.026184|
+|13|            loan_advances|  0.023276|
+|14|              to_messages|  0.019640|
+|15|  from_this_person_to_poi|  0.017733|
 
 > 3. What algorithm did you end up using? What other one(s) did you try? How did model 
 performance differ between algorithms? 
