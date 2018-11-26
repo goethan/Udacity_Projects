@@ -84,8 +84,37 @@ We can not discard any data at this point, because the 'NaN's may not necessaril
 
 ### Outliers
 
-To spot potential outliers, we start by plotting the scatterplot of the two most interesting variabels: salary and bonus.
+To spot potential outliers, we start by plotting the scatterplot of the two most interesting variabels: `salary` and `bonus`.
 ![alt text](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bous-scatterplot.png)
+
+There is clearly an outlier with both enormous salary and bonus. It turns out that this outlier is named `TOTAL`, which is the sum of all other obervations. Thus we will remove this observation, and we obtain the following graph:
+
+![salary-bonus-without-Total](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bouns-scatterplot-without-TOTAL.png)
+
+It looks like there still are four additional points with higher salary and bonus, in a range that could potentially consider them as outliers.
+
+Person Name	Salary	isPOI
+SKILLING JEFFREY K	1111258	True
+LAY KENNETH L	1072321	True
+FREVERT MARK A	1060932	False
+PICKERING MARK R	655037	False
+After closer inspection, and despite not all of them were POIs, the rest of their data seemed consistent across the board and all of them looked like valid and meaningful data points.
+
+Incomplete Data
+
+Another potential source of outliers are the ones that don't add meaningful information to the mix, such as persons with little or no relevant information at all.
+
+In order to spot these data points, the get_incompletes() function returns a list of the names with no feature data above a certain threshold.
+
+With get_incompletes() set at 90%, which means that the persons returned by the function have only less than 10% of the data completed, it returns this list.
+
+['WHALEY DAVID A',
+ 'WROBEL BRUCE',
+ 'LOCKHART EUGENE E',
+ 'THE TRAVEL AGENCY IN THE PARK',
+ 'GRAMM WENDY L']
+After inspecting closely each person one by one, there's no meaningful information we can derive from these persons and on top of that, none of each is a POI, therefore, they will be removed from the data set.
+
 
 > 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
