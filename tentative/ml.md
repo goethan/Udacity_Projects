@@ -80,7 +80,7 @@ We notice significant amount of 'NaN's in data. Below is a table showing the fra
 |total_stock_value|	0.156250|	0.000000|	0.136986|
 |poi|	0.000000|	0.000000|	0.000000|
 
-At this point, we can not discard any data, because the 'NaN's may not necessarily represent missing data. From the  they may also represent 0 for most of the cases. Hence, the 'NaN's may help us make influential predictions. 
+At this point, we can not discard any data, because the 'NaN's may not necessarily represent missing data. For example, if there are no director fees, the value of this variable could be zero.  they may also represent 0 for most of the cases. Hence, the 'NaN's may help us make influential predictions. 
 
 This conjecture is later verified by the predictive accuracy of the model.
 
@@ -90,20 +90,25 @@ There is a case to be made that if an employee did not receive restricted stock,
 
 For these reasons, NaN values in only financial features will be replaced by zeros.
 
-2. What features did you end up using in your POI identifier, and what selection process did 
+> 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
 assignment, you should attempt to engineer your own feature that does not come 
 ready­made in the dataset ­­ explain what feature you tried to make, and the rationale 
-behind it. (You do not necessarily have to use it in the final analysis, only engineer and 
+behind it. 
+
+(You do not necessarily have to use it in the final analysis, only engineer and 
 test it.) In your feature selection step, if you used an algorithm like a decision tree, 
 please also give the feature importances of the features that you use, and if you used an 
 automated feature selection function like SelectKBest, please report the feature scores 
 and reasons for your choice of parameter values.  [relevant rubric items: “create new 
 features”, “properly scale features”, “intelligently select feature”] 
  
-3. What algorithm did you end up using? What other one(s) did you try? How did model 
-performance differ between algorithms?  [relevant rubric item: “pick an algorithm”] 
- 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
+> 3. What algorithm did you end up using? What other one(s) did you try? How did model 
+performance differ between algorithms? 
+
+
+ 
+> 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
 algorithms do not have parameters that you need to tune ­­ if this is the case for the one 
 you picked, identify and briefly explain how you would have done it for the model that 
