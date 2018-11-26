@@ -91,30 +91,13 @@ There is clearly an outlier with both enormous salary and bonus. It turns out th
 
 ![salary-bonus-without-Total](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bouns-scatterplot-without-TOTAL.png)
 
-It looks like there still are four additional points with higher salary and bonus, in a range that could potentially consider them as outliers.
+Graphically, there seem to be stil 4 outliers, either with unusually high salary or unusually high bonus. It turns out the the two observations with both high salary and bonus are SKILLING JEFFREY and LAY KENNETH, the two biggest bosses and poi's of Enron. We definitely shall keep these two observations. In addition, we have FREVERT MARK with exceptionally high salary and LAVORATO JOHN with exceptionally high bonus. After examination, we find that the values of the other features of these two persons seem to be consistent with similar observations, thus we will also keep them.
 
-Person Name	Salary	isPOI
-SKILLING JEFFREY K	1111258	True
-LAY KENNETH L	1072321	True
-FREVERT MARK A	1060932	False
-PICKERING MARK R	655037	False
-After closer inspection, and despite not all of them were POIs, the rest of their data seemed consistent across the board and all of them looked like valid and meaningful data points.
+### Irrelevant data
 
-Incomplete Data
+Besides, we are going to remove two observations. The first is named 'LOCKHART EUGENE E', because every feature of this person is NaN, thus it provides no information to help predict. The second is named ''THE TRAVEL AGENCY IN THE PARK'', because this is obviously not an enron employee, thus is irrelevant to our problem. 
 
-Another potential source of outliers are the ones that don't add meaningful information to the mix, such as persons with little or no relevant information at all.
-
-In order to spot these data points, the get_incompletes() function returns a list of the names with no feature data above a certain threshold.
-
-With get_incompletes() set at 90%, which means that the persons returned by the function have only less than 10% of the data completed, it returns this list.
-
-['WHALEY DAVID A',
- 'WROBEL BRUCE',
- 'LOCKHART EUGENE E',
- 'THE TRAVEL AGENCY IN THE PARK',
- 'GRAMM WENDY L']
-After inspecting closely each person one by one, there's no meaningful information we can derive from these persons and on top of that, none of each is a POI, therefore, they will be removed from the data set.
-
+In the end, we will have 143 observations to proceed.
 
 > 2. What features did you end up using in your POI identifier, and what selection process did 
 you use to pick them? Did you have to do any scaling? Why or why not? As part of the 
@@ -136,21 +119,23 @@ performance differ between algorithms? 
  
 > 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
-algorithms do not have parameters that you need to tune ­­ if this is the case for the one 
+algorithms do not have parameters that you need to tune, if this is the case for the one 
 you picked, identify and briefly explain how you would have done it for the model that 
 was not your final choice or a different model that does utilize parameter tuning, e.g. a 
-decision tree classifier).  [relevant rubric item: “tune the algorithm”] 
+decision tree classifier). 
+
+> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How 
+did you validate your analysis? 
+
+Validation comprises set of techniques to make sure our model generalizes with the remaining part of the dataset. A classic mistakes, which was briefly mistaken by me, is over-fitting where the model performed well on training set but have substantial lower result on test set. In order to overcome such classic mistake, we can conduct cross-validation (provided by the evaluate function in poi_id.py where I start 1000 trials and divided the dataset into 3:1 training-to-test ratio. Main reason why we would use StratifiedSuffleSplit rather than other splitting techniques avaible is due to the nature of our dataset, which is extremely small with only 14 Persons of Interest. A single split into a training & test set would not give a better estimate of error accuracy. Therefore, we need to randomly split the data into multiple trials while keeping the fraction of POIs in each trials relatively constant.
  
-5. What is validation, and what’s a classic mistake you can make if you do it wrong? How 
-did you validate your analysis?  [relevant rubric item: “validation strategy”] 
- 
-6. Give at least 2 evaluation metrics and your average performance for each of them. 
-Explain an interpretation of your metrics that says something human­understandable 
-about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”] 
+> 6. Give at least 2 evaluation metrics and your average performance for each of them. 
+Explain an interpretation of your metrics that says something human-understandable 
+about your algorithm’s performance. 
 
+For this assignment, I used precision & recall as 2 main evaluation metrics. The best performance belongs to logistic regression (precision: 0.382 & recall: 0.415) which is also the final model of choice, as logistic regression is also widely used in text classification, we can actually extend this model for email classification if needed. 
 
+Precision refers to the ratio of true positive (predicted as POI) to the records that are actually POI while recall described ratio of true positives to people flagged as POI. Essentially speaking, with a precision score of 0.386, it tells us if this model predicts 100 POIs, there would be 38 people are actually POIs and the rest 62 are innocent. With recall score of 0.4252, this model finds 42% of all real POIs in prediction. This model is amazingly perfect for finding bad guys without missing anyone, but with 42% probability fo wrong
 
-plan:
-1. I will finish understand the targetted dataset for each miniproject.
-2. I do the py file in cloud.
-3. I finish this summary.
+With a precision score of 0.38, it tells us that if this model predicts 100 POIs, then the chance would be 38 people who are truely POIs and the rest 62 are innocent. On the other hand, with a recall score of 0.415, this model can find 42% of all real POIs in prediction. Due to the nature of the dataset, accuracy is not a good measurement as even if non-POI are all flagged, the accuracy score will yield that the model is a success.
+
