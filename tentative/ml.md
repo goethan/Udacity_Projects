@@ -161,11 +161,18 @@ Below is a table of the result from `SelectKBest` using `f_classif` and `mutual_
 |14|              to_messages|  0.019640|
 |15|  from_this_person_to_poi|  0.017733|
 
+-----------------------------------------------------------
+
 > 3. What algorithm did you end up using? What other one(s) did you try? How did model 
 performance differ between algorithms? 
 
+I tried the following algorithms:
+- AdaBoost, Support Vector Machine, Logistic Regression (widely used in econometrics), Gaussian Naive Bayes, Multi-layer Perceptron classifier, and Random Forest. I find that AdaBoost, Logistic Regression and 
+After trying more than 10 algorithm and found Random Forest Classifer, Support Vector Machine & Logistic Regression (not covering in class) have the potential to be improved further. Without any tuning, K-means clustering performed reasonably sufficient with precision & recall rate both larger than 0.3. Logistic regression is using widely in medical & law field, most prominent case is to predict tumor benign/malignancy or guilty/no-guilty law case and I would love to test, and recently with e-mail spamming classifer. Although initially, the result was not as expected, I believe with further tuning we can come up with a much better result.
 
- 
+Post-tuning result is summarized as tabel below:
+
+----------------------------------------------------------- 
 > 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
 algorithms do not have parameters that you need to tune, if this is the case for the one 
@@ -173,11 +180,13 @@ you picked, identify and briefly explain how you would have done it 
 was not your final choice or a different model that does utilize parameter tuning, e.g. a 
 decision tree classifier). 
 
+-----------------------------------------------------------
 > 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How 
 did you validate your analysis? 
 
 Validation comprises set of techniques to make sure our model generalizes with the remaining part of the dataset. A classic mistakes, which was briefly mistaken by me, is over-fitting where the model performed well on training set but have substantial lower result on test set. In order to overcome such classic mistake, we can conduct cross-validation (provided by the evaluate function in poi_id.py where I start 1000 trials and divided the dataset into 3:1 training-to-test ratio. Main reason why we would use StratifiedSuffleSplit rather than other splitting techniques avaible is due to the nature of our dataset, which is extremely small with only 14 Persons of Interest. A single split into a training & test set would not give a better estimate of error accuracy. Therefore, we need to randomly split the data into multiple trials while keeping the fraction of POIs in each trials relatively constant.
  
+----------------------------------------------------------------
 > 6. Give at least 2 evaluation metrics and your average performance for each of them. 
 Explain an interpretation of your metrics that says something human-understandable 
 about your algorithm’s performance. 
