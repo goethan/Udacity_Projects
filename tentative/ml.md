@@ -28,7 +28,7 @@ In this README.md document, you could find the answers for all the project quest
 
 ## Data Exploration
 
-> 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
+> Question 1. Summarize for us the goal of this project and how machine learning is useful in trying to 
 accomplish it. As part of your answer, give some background on the dataset and how it 
 can be used to answer the project question. Were there any outliers in the data when 
 you got it, and how did you handle those? 
@@ -99,8 +99,10 @@ Besides, we are going to remove two observations. The first is named 'LOCKHART E
 
 In the end, we will have 143 observations to proceed.
 
-> 2. What features did you end up using in your POI identifier, and what selection process did you use to pick them? 
-Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready­made in the dataset ­­ explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
+-------------------------
+
+> Question 2. What features did you end up using in your POI identifier, and what selection process did you use to pick them? 
+Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready made in the dataset. Explain what feature you tried to make, and the rationale behind it. In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
 
 I used the `SelectKBest` from `scikit-learn` package to select features based on their scores. The key parameter of the `SelectKBest` is `score_function`, by which we can choose different metrics functions to obtain the feature score rankings. Given that this is a classification problem, the most relevant `score_function`s are `f_classif` and `mutual_info_classif`. 
 - With `f_classif`, we are doing ANOVA, and calcualte the F-statistic: F = variation between sample means / variation within the samples. The higher the value of the F statistic, the more significant is the relationship between the feature and the label.
