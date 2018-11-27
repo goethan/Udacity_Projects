@@ -100,10 +100,28 @@ Besides, we are going to remove two observations. The first is named 'LOCKHART E
 In the end, we will have 143 observations to proceed.
 
 > 2. What features did you end up using in your POI identifier, and what selection process did you use to pick them? 
-Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready­made in the dataset ­­ explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) 
-In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
+Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready­made in the dataset ­­ explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
 
+I used the `SelectKBest` from `scikit-learn` package to select features based on their scores. The key parameter of the `SelectKBest` is `score_function`, by which we can choose different metrics functions to obtain the feature score rankings. Given that this is a classification problem, the most relevant `score_function`s are `f_classif` and `mutual_info_classif`. 
+- With `f_classif`, we are doing ANOVA, and calcualte the F-statistic: F = variation between sample means / variation within the samples. The higher the value of the F statistic, the more significant is the relationship between the feature and the label.
+- With `Mutual information`, we reply on nonparametric methods based on entropy estimation from k-nearest neighbors distances to calculate the dependency between the variables. The higher the value, the higher the dependency between the feature and the label.
 
+I considered both `f_classif` and `mutual_info_classif` to derive my features. Specifically, for each of these two score functions, I extracted the 15 features with highest scores. I then selected 14 features based on the following rule: every feature should either be among the top 10 highest scores from the estimation result of `f_classif` or `mutual_info_classif`. The features I selected are as follows: 
+- `["exercised_stock_options", "total_stock_value", "bonus", "salary", "total_gain", "frac_to_poi", "deferred_income", "long_term_incentive", "restricted_stock", "shared_receipt_with_poi", "expenses", "frac_poi", "other", "director_fees"]`
+
+We notice that 11 out of 14 features are related to financial data, and only 3 features are related to email data. Among these features, 3 are created by me. Below are the 4 features that I created: 
+- `frac_to_poi` = `from_this_person_to_poi`/`from_messages`
+- `frac_from_poi` = `from_to_poi_this_person`/`to_messages`
+- `frac_poi` = (`from_this_person_to_poi` + `from_to_poi_this_person`)/(`to_messages` + `from_messages`)
+- `total_gain` = `total_stock_values` + `total_payments`
+
+The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to 0.33 & 0.40.)
+
+The last simple feature I added is from the financial data. If we were in a linear regression problem, creating additive feature would cause multicollinearity issues. However, we are dealing with non-linear classification problems here, so doing this is problem free and may bring useful insight. We also notice that the feature `total_gain` has highest score based on the `mutual_info_classif` estimation strategy. Because of the highly complex payment structure of Enron, I did not choose to create other financial features. Also, I did not create any polynomial terms. In fact, polynomial possibilites are covered by the neural network models, which is one of the algorithms I considered for prediction. 
+
+I also used `MinMaxScaler()` to verify the result of `SelectKBest`. The result does not change. Naturally, from the way we calculate the F-score and mutual information, we can tell that these two algorithms `f_classif` and `mutual_info_classif` do not depend upon the scale of the features.
+
+Below is a table of the result from `SelectKBest` using `f_classif` and `mutual_info_classif` score functions respectively.
 
 |ranking|features     |f_classif_scores|
 |---|-------------|------|
