@@ -108,7 +108,7 @@ I used the `SelectKBest` from `scikit-learn` package to select features based on
 - With `f_classif`, we are doing ANOVA, and calcualte the F-statistic: F = variation between sample means / variation within the samples. The higher the value of the F statistic, the more significant is the relationship between the feature and the label.
 - With `Mutual information`, we reply on nonparametric methods based on entropy estimation from k-nearest neighbors distances to calculate the dependency between the variables. The higher the value, the higher the dependency between the feature and the label.
 
-I considered both `f_classif` and `mutual_info_classif` to derive my features. Specifically, for each of these two score functions, I extracted the 15 features with highest scores. I then selected 14 features based on the following rule: every feature should either be among the top 10 highest scores from the estimation result of `f_classif` or `mutual_info_classif`. The features I selected are as follows: 
+I considered both `f_classif` and `mutual_info_classif` to derive my features. Specifically, for each of these two score functions, I extracted the 15 features with highest scores. I then selected 14 features based on the following rule: every feature should either be among the top 9 highest scores from the estimation result of `f_classif` or `mutual_info_classif`. The features I selected are as follows: 
 - `["exercised_stock_options", "total_stock_value", "bonus", "salary", "total_gain", "frac_to_poi", "deferred_income", "long_term_incentive", "restricted_stock", "shared_receipt_with_poi", "expenses", "frac_poi", "other", "director_fees"]`
 
 We notice that 11 out of 14 features are related to financial data, and only 3 features are related to email data. Among these features, 3 are created by me. Below are the 4 features that I created: 
@@ -117,7 +117,7 @@ We notice that 11 out of 14 features are related to financial data, and only 3 f
 - `frac_poi` = (`from_this_person_to_poi` + `from_to_poi_this_person`)/(`to_messages` + `from_messages`)
 - `total_gain` = `total_stock_values` + `total_payments`
 
-The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to 0.33 & 0.40.)
+The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to 0.667 & 0.40.)
 
 The last simple feature I added is from the financial data. If we were in a linear regression problem, creating additive feature would cause multicollinearity issues. However, we are dealing with non-linear classification problems here, so doing this is problem free and may bring useful insight. We also notice that the feature `total_gain` has highest score based on the `mutual_info_classif` estimation strategy. Because of the highly complex payment structure of Enron, I did not choose to create other financial features. Also, I did not create any polynomial terms. In fact, polynomial possibilites are covered by the neural network models, which is one of the algorithms I considered for prediction. 
 
@@ -166,13 +166,18 @@ Below is a table of the result from `SelectKBest` using `f_classif` and `mutual_
 > 3. What algorithm did you end up using? What other one(s) did you try? How did model 
 performance differ between algorithms? 
 
-I tried the following algorithms:
-- AdaBoost, Support Vector Machine, Logistic Regression (widely used in econometrics), Gaussian Naive Bayes, Multi-layer Perceptron classifier, and Random Forest. I find that AdaBoost, Logistic Regression and 
-After trying more than 10 algorithm and found Random Forest Classifer, Support Vector Machine & Logistic Regression (not covering in class) have the potential to be improved further. Without any tuning, K-means clustering performed reasonably sufficient with precision & recall rate both larger than 0.3. Logistic regression is using widely in medical & law field, most prominent case is to predict tumor benign/malignancy or guilty/no-guilty law case and I would love to test, and recently with e-mail spamming classifer. Although initially, the result was not as expected, I believe with further tuning we can come up with a much better result.
+I tried the following algorithms: `AdaBoost`, `Support Vector Machine`, `Logistic Regression` (widely used in econometrics), `Gaussian Naive Bayes`, `Multi-layer Perceptron classifier`, and `Random Forest`.
+
+I decide to proceed with all the above algorithms except for `Gaussian Naive Bayes`. They have the potential to be improved for the following reasons:
+1. When we improve our feature compositions, either one or all of the metrics (precision, recall, F1 etc.) of these algorithms have significant improvement.
+2. By default, the tuning parameters have more degrees of freedom. 
+
+Without any tuning, K-means clustering performed reasonably sufficient with precision & recall rate both larger than 0.3. Logistic regression is using widely in medical & law field, most prominent case is to predict tumor benign/malignancy or guilty/no-guilty law case and I would love to test, and recently with e-mail spamming classifer. Although initially, the result was not as expected, I believe with further tuning we can come up with a much better result.
 
 Post-tuning result is summarized as tabel below:
 
 ----------------------------------------------------------- 
+
 > 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
 algorithms do not have parameters that you need to tune, if this is the case for the one 
@@ -180,16 +185,26 @@ you picked, identify and briefly explain how you would have done it 
 was not your final choice or a different model that does utilize parameter tuning, e.g. a 
 decision tree classifier). 
 
------------------------------------------------------------
-> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How 
-did you validate your analysis? 
+To tune parameters means that when we are training the model, we adjust the parameters of the algorithms in order to improve our model prediction precision. Theoretically, we are able to come up with a set of parameters which allows us to obtain the highest precision on the training model. But, even with cross validation, over-trained model can lead to over-fitting: lower bias, but higher variance in prediction errors.
 
-Validation comprises set of techniques to make sure our model generalizes with the remaining part of the dataset. A classic mistakes, which was briefly mistaken by me, is over-fitting where the model performed well on training set but have substantial lower result on test set. In order to overcome such classic mistake, we can conduct cross-validation (provided by the evaluate function in poi_id.py where I start 1000 trials and divided the dataset into 3:1 training-to-test ratio. Main reason why we would use StratifiedSuffleSplit rather than other splitting techniques avaible is due to the nature of our dataset, which is extremely small with only 14 Persons of Interest. A single split into a training & test set would not give a better estimate of error accuracy. Therefore, we need to randomly split the data into multiple trials while keeping the fraction of POIs in each trials relatively constant.
- 
+Parameter can influence the outcome of the learning process, the more tuned the parameters, the more biased the algorithm will be to the training data & test harness. The strategy can be effective but it can also lead to more fragile models & overfit the test harness but don't perform well in practice
+
+With every algorithms, I tried to tune as much as I could with only marginal success & unremmarkable improvement but come up with significant success with Logistic Regression & K-Mean Clustering. Manually searching through the documentation, I came up with these following paremeters:
+
+Logistic regression: C (inverse regularization), class weight (weights associated with classes), max iteration (maximum number of iterations taken for the solvers to converge), random_state (the seed of the pseudo random number generator to use when shuffling the data), solver (using 'liblinear' since we have very small dataset).
+
+C=1e-08, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1, 
+max_iter=100, multi_class='ovr', penalty='l2', random_state=42, solver='liblinear', tol=0.001, verbose=0))
+
+-----------------------------------------------------------
+
+> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
+
+
+
 ----------------------------------------------------------------
-> 6. Give at least 2 evaluation metrics and your average performance for each of them. 
-Explain an interpretation of your metrics that says something human-understandable 
-about your algorithm’s performance. 
+
+> 6. Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. 
 
 For this assignment, I used precision & recall as 2 main evaluation metrics. The best performance belongs to logistic regression (precision: 0.382 & recall: 0.415) which is also the final model of choice, as logistic regression is also widely used in text classification, we can actually extend this model for email classification if needed. 
 
@@ -197,3 +212,8 @@ Precision refers to the ratio of true positive (predicted as POI) to the records
 
 With a precision score of 0.38, it tells us that if this model predicts 100 POIs, then the chance would be 38 people who are truely POIs and the rest 62 are innocent. On the other hand, with a recall score of 0.415, this model can find 42% of all real POIs in prediction. Due to the nature of the dataset, accuracy is not a good measurement as even if non-POI are all flagged, the accuracy score will yield that the model is a success.
 
+
+References:
+1. why should we shuffle?
+  - https://stackoverflow.com/questions/48403239/what-is-the-differene-between-stratify-and-stratifiedkfold-in-python-scikit-lear
+  - https://stackoverflow.com/questions/45969390/difference-between-stratifiedkfold-and-stratifiedshufflesplit-in-sklearn
