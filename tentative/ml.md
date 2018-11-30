@@ -206,6 +206,42 @@ max_iter=100, multi_class='ovr', penalty='l2', random_state=42, solver='liblinea
 
 > 6. Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. 
 
+The evaulation metrics that I choose are Precision, Recall and F1 score. 
+
+Although at the beginning, SVC did not seem to have the best potential, it turns out to get good result: above the 0.3 benchmark requirement in both precision, recall and F1 score. Now we dig deeper why we should prefer precision, recall and F1 to accuracy in our enron study.
+
+We know that owing to the way each metric is defined, one metriec is favored over another according to our needs.
+
+**Why is Accuracy not suitable?**
+Accuracy is defined as the ratio of correctly predicted observation to the total observations (`double Accuracy = (TP+TN)/(TP+FP+FN+TN)`). This is a valid measure of model performance when the number of false positives and false negatives do not differ much and the distribution of the label variable is not significantly skewed to one class. However, in our Enron data set, the size of data is small and there are many more non-POI's than POI's. As a result, our models can have high overall accuracy (with low `FP` + `FN`), 
+
+Recall
+That's the ultimate reason why the classifier has been also optimized for other metrics, more attuned to the nature of the data and the specifics of the social framework it described.
+
+Another metric, Recall, describes the ability of the algorithm to correctly identify a POI provided that the person is a POI. Topping at a 0.35, means that 35% of the POI won't go unnoticed by the algorithm.
+
+35% might seem low, but this metric is particularly insightful for the Enron case. Since we are dealing with a criminal situation, we want our classifier to err on the side of guessing guilty — higher levels of scrutiny — so it makes sure as many people get flagged as POI, maybe at a cost of identifying some innocent people along the way.
+
+Boosting its Recall metric the classifier ensures that is correctly identifying every single POI. The tradeoff is that the algorithm will be biased towards "overdoing" it. In this particular situation this exactly what we are looking for: guarantee that no POIs will go unnoticed and (hope) the misclassified innocents will be declared innocent by the justice later on.
+
+Precision
+On the other hand, Precision topped at more than 32%. What this number is telling, is the chances that every time the algorithm is flagging somebody as POI, this person truly is a POI.
+
+Unlike the previous situation, if the classifier doesn't have have great Recall, but it does have good Precision, it means that whenever a POI gets flagged in the test set, there's a lot of confidence that it’s very likely to be a real POI and not a false alarm.
+
+On the other hand, the tradeoff is that sometimes real POIs are missed, since the classifier is effectively reluctant to pull the trigger on edge cases. Which in the case of Enron is definitely something we don't want.
+
+F1 Score
+It seems that neither Accuracy nor Precision were helping much in terms of assessing the results. For this reason, as a final note and despite not widely covered during class, I wanted to talk about the F1 score.
+
+In some way, the F1 score can be thought of "the best of both worlds."
+
+In its pure definition F1 "considers both the Precision and the Recall of the test to compute the score [...] The F1 score is the harmonic average of the precision and recall, where an F1 score reaches its best value at 1 (perfect precision and recall) and worst at 0."
+
+Technically it ensures that both False Positives an False Negatives rates are low, which translated to the Enron set, means that I can identify POIs reliably and accurately. If the identifier finds a POI then the person is almost certainly to be a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
+
+To wrap it up, it is clear that in this context, Recall is way more important than both Accuracy and Precision. If further work ought to be performed to the final algorithm, given the specific data set and social framework, re-tuning the classifier to yield a better Recall score — even at the cost of lower Precision — would be the most effective way to ensure all POIs are prosecuted.
+
 For this assignment, I used precision & recall as 2 main evaluation metrics. The best performance belongs to logistic regression (precision: 0.382 & recall: 0.415) which is also the final model of choice, as logistic regression is also widely used in text classification, we can actually extend this model for email classification if needed. 
 
 Precision refers to the ratio of true positive (predicted as POI) to the records that are actually POI while recall described ratio of true positives to people flagged as POI. Essentially speaking, with a precision score of 0.386, it tells us if this model predicts 100 POIs, there would be 38 people are actually POIs and the rest 62 are innocent. With recall score of 0.4252, this model finds 42% of all real POIs in prediction. This model is amazingly perfect for finding bad guys without missing anyone, but with 42% probability fo wrong
