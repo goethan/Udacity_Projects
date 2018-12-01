@@ -228,10 +228,11 @@ random_state=0
 
 If our model did not do well, a good way of dealing with overfitting is cross validation, which we will discuss in more details in the next question. Our current result is already derived under 2-fold cross validation.
 
+
 -----------------------------------------------------------
 
-> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
 
+> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
 
 Validation refers to the set of techniques used to make sure that our fitted model can be generalized, i.e., the estimated model is not restricted  to a particular part of the data or some particular dataset. 
 
@@ -256,16 +257,12 @@ Pipeline(memory=None,
 
 > 6. Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. 
 
-The evaulation metrics that I choose are Precision, Recall and F1 score. 
-
-Although at the beginning, SVC did not seem to have the best potential, it turns out to get good result: above the 0.3 benchmark requirement in both precision, recall and F1 score. Now we dig deeper why we should prefer precision, recall and F1 to accuracy in our enron study.
-
-We know that owing to the way each metric is defined, one metriec is favored over another according to our needs.
+The evaulation metrics that I choose are Precision annd Recall. 
 
 **Why is Accuracy not suitable?**
 Accuracy is defined as the ratio of correctly predicted observation to the total observations (`double Accuracy = (TP+TN)/(TP+FP+FN+TN)`). This is a valid measure of model performance when the number of false positives and false negatives do not differ much and the distribution of the label variable is not significantly skewed to one class. However, in our Enron data set, the size of data is small and there are many more non-POI's than POI's. As a result, our models can have high overall accuracy (with low `FP` + `FN`), 
 
-Recall
+**Recall**
 That's the ultimate reason why the classifier has been also optimized for other metrics, more attuned to the nature of the data and the specifics of the social framework it described.
 
 Another metric, Recall, describes the ability of the algorithm to correctly identify a POI provided that the person is a POI. Topping at a 0.35, means that 35% of the POI won't go unnoticed by the algorithm.
@@ -274,7 +271,7 @@ Another metric, Recall, describes the ability of the algorithm to correctly iden
 
 Boosting its Recall metric the classifier ensures that is correctly identifying every single POI. The tradeoff is that the algorithm will be biased towards "overdoing" it. In this particular situation this exactly what we are looking for: guarantee that no POIs will go unnoticed and (hope) the misclassified innocents will be declared innocent by the justice later on.
 
-Precision
+**Precision**
 On the other hand, Precision topped at more than 32%. What this number is telling, is the chances that every time the algorithm is flagging somebody as POI, this person truly is a POI.
 
 Unlike the previous situation, if the classifier doesn't have have great Recall, but it does have good Precision, it means that whenever a POI gets flagged in the test set, there's a lot of confidence that it’s very likely to be a real POI and not a false alarm.
