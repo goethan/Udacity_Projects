@@ -172,9 +172,25 @@ I decide to proceed with all the above algorithms except for `Gaussian Naive Bay
 1. When we improve our feature compositions, either one or all of the metrics (precision, recall, F1 etc.) of these algorithms have significant improvement.
 2. By default, the tuning parameters have more degrees of freedom. 
 
-Without any tuning, K-means clustering performed reasonably sufficient with precision & recall rate both larger than 0.3. Logistic regression is using widely in medical & law field, most prominent case is to predict tumor benign/malignancy or guilty/no-guilty law case and I would love to test, and recently with e-mail spamming classifer. Although initially, the result was not as expected, I believe with further tuning we can come up with a much better result.
+Here is a summary of the final model performances:
 
-Post-tuning result is summarized as tabel below:
+||Accuracy|	Precision|Recall|F1|F2|
+|--------|------|--------|-------|----------|---------|
+|AdaBoost|0.90000|0.50000|0.40000|0.44444|0.41667|
+|MLPclassifier|0.84000|0.20000|0.20000|0.20000|0.20000|
+|LogisticRegression|0.90000|0.50000|0.20000|0.28571|0.22727|
+|RandomForest|0.84000|0.20000|0.20000|0.20000|0.20000|
+|SVC|0.78000|0.20000|0.40000|0.26667|0.33333|
+
+We notice that AdaBoost has the most balanced performance for accuracy, precision and recall. As a result, the F1 score, the harmonic mean of precision and recall, is also high. The F2 score is a weighted harmonic mean of precision and recall, and turns out to be highest among all algorithms chosen.
+
+LogisticRegression has comparable accuracy and precision but has low recall. Recall which measures the probability that the model can correctly spot a POI when the person is actually a POI. A low recall is unacceptable in our situation, where we want to find all the potential frauds.
+
+Our candidate for the final submission of the project will be Adaboost, and the feature used is the 14 features from SelectKBEST. As a quick sum, we have:
+
+AdaBoost-Accuracy:  90%
+AdaBoost-Precision: 50%
+AdaBoost-Recall:    40%
 
 ----------------------------------------------------------- 
 
@@ -185,21 +201,55 @@ you picked, identify and briefly explain how you would have done it 
 was not your final choice or a different model that does utilize parameter tuning, e.g. a 
 decision tree classifier). 
 
-To tune parameters means that when we are training the model, we adjust the parameters of the algorithms in order to improve our model prediction precision. Theoretically, we are able to come up with a set of parameters which allows us to obtain the highest precision on the training model. But, even with cross validation, over-trained model can lead to over-fitting: lower bias, but higher variance in prediction errors.
+Machine learning algorithms are developed with many parameters at modelers' disposal to suit model to the situation at hand. Since datasets are all different, it is natural that one may find 
 
-Parameter can influence the outcome of the learning process, the more tuned the parameters, the more biased the algorithm will be to the training data & test harness. The strategy can be effective but it can also lead to more fragile models & overfit the test harness but don't perform well in practice
+To tune parameters means that we adjust the parameters of the algorithms in order to improve our model prediction precision. Since each dataset has unique characteristics, it is reasonable to tune the parameters to see whether we are able to come up with a set of parameters to optimize the model performance.  
 
-With every algorithms, I tried to tune as much as I could with only marginal success & unremmarkable improvement but come up with significant success with Logistic Regression & K-Mean Clustering. Manually searching through the documentation, I came up with these following paremeters:
+However, if not done correctly, we may end up with a combination of parameters which are only perfect in the training set, but have large prediction errors when dealing with new data points. This situation is named overfitting, and this is one biggest downside of parameter tunning. We are going to use `Pipeline` and `GridSearchCV` modules from sklearn package to facilitate model comparison and implementaion.
 
-Logistic regression: C (inverse regularization), class weight (weights associated with classes), max iteration (maximum number of iterations taken for the solvers to converge), random_state (the seed of the pseudo random number generator to use when shuffling the data), solver (using 'liblinear' since we have very small dataset).
+Our final choice is AdaBoost, a boosting algorithm. In theory, this algorithm is prone to overfitting when we have many weak learners which are also deep decision trees. However, it is proved that "as the number of weak learners (rounds of boosting) increases, the bias converges exponentially while the variance increases by geometrically diminishing magnitudes", hence its degree of overfitting is much weaker than most of other methods. Given our data, the parameter grid I choose is as follows:
 
-C=1e-08, class_weight=None, dual=False, fit_intercept=True, intercept_scaling=1, 
-max_iter=100, multi_class='ovr', penalty='l2', random_state=42, solver='liblinear', tol=0.001, verbose=0))
+```python
+param_grid = {'adb__n_estimators': range(10,80,10),
+                 'adb__random_state':[0],
+                 'adb__learning_rate': [0.001, 0.05, 0.1, 0.3, 0.5,0.7,0.9, 1]}
+```
+
+The optimal parameter set chosen is ```learning_rate=0.9, n_estimators=50, random_state=0```. We notice that the number of iterations (`n_estimators`) is 50, and the `learning_rate` parameter is set at 0.9. These imply that the optimal algorithm converges fast, and does not have the sign of being stuck in a local extremum. It coincides with the result in research literature that for low-dimensional problems,  early stopping is necessary to prevent from overfitting.
+
+Given our choice, the parameters that yield the best result for AdaBoost is as follows:
+```
+algorithm='SAMME.R', 
+base_estimator=None,
+learning_rate=0.9, 
+n_estimators=50, 
+random_state=0
+```
+
+If our model did not do well, a good way of dealing with overfitting is cross validation, which we will discuss in more details in the next question. Our current result is already derived under 2-fold cross validation.
 
 -----------------------------------------------------------
 
 > 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
 
+
+Validation refers to the set of techniques used to make sure that our fitted model can be generalized, i.e., the estimated model is not restricted  to a particular part of the data or some particular dataset. 
+
+A classic mistake during model estimation is over-fitting. That is, the model has good performance in the training set, but has poor performance on the testing set.
+
+To address this issue, a common strategy is to dynamically allocate training points and testing points, a method termed cross validation. We conduct cross-validation by firstly fixing  the training set/testing set ratio, then dynamically assign the data points to these sets.
+
+In my study, I considered the following training-to-testing ratios: 3:1, 4:1, 5:1. For each ratio I use the `StratifiedShuffleSplit()` method from `sklearn.model_selection` category. Why should shuffle the data before splitting? It is because the size of our data is small, and we have an imbalanced label with only 14 POI's against 130+ non-POI's. If we split data without shuffling, the test set may not maintain a relatively constant fraction of POI's, which will bias the fitting and testing result of certain k-fold, thus producing both larger bias and variance in the prediction errors. In one word, this method adds randomness (from shuffling) before allocating data points compared to the traditional `train_test_split()` method. This randomness is essential because the size of our dataset is too small and unbalanced.
+
+Our result from `StratifiedShuffleSplit()` for AdaBoost is summarized as follows:
+
+```python
+Pipeline(memory=None,
+     steps=[('scaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('adb', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=0.9, n_estimators=20, random_state=0))])
+	Accuracy: 0.88000	Precision: 0.40000	Recall: 0.40000	F1: 0.40000	F2: 0.40000
+	Total predictions:   50	True positives:    2	False positives:    3	False negatives:    3	True negatives:   42
+```
 
 
 ----------------------------------------------------------------
@@ -253,3 +303,6 @@ References:
 1. why should we shuffle?
   - https://stackoverflow.com/questions/48403239/what-is-the-differene-between-stratify-and-stratifiedkfold-in-python-scikit-lear
   - https://stackoverflow.com/questions/45969390/difference-between-stratifiedkfold-and-stratifiedshufflesplit-in-sklearn
+2. When is adaboost overfitting?
+  - https://stats.stackexchange.com/questions/163560/how-many-adaboost-iterations
+  - https://stats.stackexchange.com/questions/20622/is-adaboost-less-or-more-prone-to-overfitting
