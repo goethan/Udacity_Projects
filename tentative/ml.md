@@ -188,9 +188,9 @@ LogisticRegression has comparable accuracy and precision but has low recall. Rec
 
 Our candidate for the final submission of the project will be Adaboost, and the feature used is the 14 features from SelectKBEST. As a quick sum, we have:
 
-AdaBoost-Accuracy:  90%
-AdaBoost-Precision: 50%
-AdaBoost-Recall:    40%
+|AdaBoost-Accuracy:|  90%|
+|AdaBoost-Precision:| 50%|
+|AdaBoost-Recall:|    40%|
 
 ----------------------------------------------------------- 
 
