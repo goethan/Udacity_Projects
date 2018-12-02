@@ -116,7 +116,7 @@ We notice that 11 out of 14 features are related to financial data, and only 3 f
 - `frac_poi` = (`from_this_person_to_poi` + `from_to_poi_this_person`)/(`to_messages` + `from_messages`)
 - `total_gain` = `total_stock_values` + `total_payments`
 
-The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to 0.667 & 0.40.)
+The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to both more than 0.40)
 
 The last simple feature I added is from the financial data. If we were in a linear regression problem, creating additive feature would cause multicollinearity issues. However, we are dealing with non-linear classification problems here, so doing this is problem free and may bring useful insight. We also notice that the feature `total_gain` has highest score based on the `mutual_info_classif` estimation strategy. Because of the highly complex payment structure of Enron, I did not choose to create other financial features. Also, I did not create any polynomial terms. In fact, polynomial possibilites are covered by the neural network models, which is one of the algorithms I considered for prediction. 
 
@@ -162,13 +162,13 @@ Below is a table of the result from `SelectKBest` using `f_classif` and `mutual_
 
 -----------------------------------------------------------
 
-> 3. What algorithm did you end up using? What other one(s) did you try? How did model 
+> Question 3. What algorithm did you end up using? What other one(s) did you try? How did model 
 performance differ between algorithms? 
 
 I tried the following algorithms: `AdaBoost`, `Support Vector Machine`, `Logistic Regression` (widely used in econometrics), `Gaussian Naive Bayes`, `Multi-layer Perceptron classifier`, and `Random Forest`.
 
 I decide to proceed with all the above algorithms except for `Gaussian Naive Bayes`. They have the potential to be improved for the following reasons:
-1. When we improve our feature compositions, either one or all of the metrics (precision, recall, F1 etc.) of these algorithms have significant improvement.
+1. When we improve our feature compositions, either one or all of the metrics (precision, recall) of these algorithms have significant improvement.
 2. By default, the tuning parameters have more degrees of freedom. 
 
 Here is a summary of the final model performances:
@@ -193,7 +193,7 @@ Our candidate for the final submission of the project will be Adaboost, and the 
 
 ----------------------------------------------------------- 
 
-> 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
+> Question 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
 algorithms do not have parameters that you need to tune, if this is the case for the one 
 you picked, identify and briefly explain how you would have done it for the model that 
