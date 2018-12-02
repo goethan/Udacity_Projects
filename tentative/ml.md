@@ -116,7 +116,7 @@ We notice that 11 out of 14 features are related to financial data, and only 3 f
 - `frac_poi` = (`from_this_person_to_poi` + `from_to_poi_this_person`)/(`to_messages` + `from_messages`)
 - `total_gain` = `total_stock_values` + `total_payments`
 
-The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to both more than 0.40)
+The first 3 features are from email data. By calculating fractions, we are able to focus on comparison based on the relative values instead of absolute values. (If some employee sent much more emails than the others, then the probability that her/his emails went to the poi is natually higher without further information.) By composing POI ratios, we are also able to verify our conjecture whether the POIs may contact each other more frequently than those non-POI's. The created features bring significant improvement to model performance for most of the algorithms used in later part of our study (e.g Accuracy, precision, recall, F1 and F2 all increase for the AdaBoost algorithm after adding the new features. In particular, the precision & recall metrics increase from 0.25 & 0.20 to 0.67 & 0.40 respectively)
 
 The last simple feature I added is from the financial data. If we were in a linear regression problem, creating additive feature would cause multicollinearity issues. However, we are dealing with non-linear classification problems here, so doing this is problem free and may bring useful insight. We also notice that the feature `total_gain` has highest score based on the `mutual_info_classif` estimation strategy. Because of the highly complex payment structure of Enron, I did not choose to create other financial features. Also, I did not create any polynomial terms. In fact, polynomial possibilites are covered by the neural network models, which is one of the algorithms I considered for prediction. 
 
@@ -184,9 +184,9 @@ Here is a summary of the final model performances **after parameter tuning**:
 
 We notice that AdaBoost has the most balanced performance for accuracy, precision and recall. As a result, the F1 score, the harmonic mean of precision and recall, is also high. The F2 score is a weighted harmonic mean of precision and recall, and turns out to be highest among all algorithms chosen.
 
-LogisticRegression has comparable accuracy and precision but has low recall. Recall measures the probability that the model can correctly spot a POI when the person is actually a POI. A low recall is unacceptable in our situation, where we want to find all the potential frauds.
+LogisticRegression has comparable accuracy and precision but has low recall. Recall measures the probability that the model can correctly spot a POI when the person is actually a POI. A low recall is unacceptable in our situation, where we do not want to miss the potential frauds.
 
-Our candidate for the final submission of the project will be Adaboost, and the feature used is the 14 features from SelectKBEST. As a quick sum, we have:
+Our candidate for the final submission of the project will be Adaboost, with the 14 features from SelectKBest:
 
 |AdaBoost-Accuracy:|  90%|
 |AdaBoost-Precision:| 50%|
@@ -197,11 +197,11 @@ Our candidate for the final submission of the project will be Adaboost, and the 
 > Question 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
 don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune, if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier). 
 
-Machine learning algorithms are developed with many parameters at modelers' disposal to suit model to the situation at hand. Since datasets are all different, it is natural that one may find 
+Machine learning algorithms are developed with many parameters at modelers' disposal to suit model to the situation at hand.
 
-To tune parameters means that we adjust the parameters of the algorithms in order to improve our model prediction precision. Since each dataset has unique characteristics, it is reasonable to tune the parameters to see whether we are able to come up with a set of parameters to optimize the model performance.  
+To tune parameters means that we adjust the parameters of the algorithms in order to improve our model prediction precision. Since each dataset has its unique characteristics, it is reasonable to tune the parameters to see whether we are able to come up with a set of parameters which can optimize the model performance.  
 
-However, if not done correctly, we may end up with a combination of parameters which are only perfect in the training set, but have large prediction errors when dealing with new data points. This situation is named overfitting, and this is one biggest downside of parameter tunning. 
+However, we may also end up with a combination of parameters which are only perfect in the training set, but have large prediction errors when dealing with new data points. This situation is named overfitting, and this is one biggest downside of parameter tunning. 
 
 We are going to use `Pipeline` and `GridSearchCV` modules from sklearn package to facilitate model comparison and implementaion.
 
@@ -230,13 +230,13 @@ Our current result is derived under 2-fold cross validation.
 
 > Question 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
 
-Validation refers to the set of techniques used to make sure that our fitted model can be generalized, i.e., the estimated model is not restricted  to a particular part of the data or some particular dataset. 
+Validation refers to the set of techniques used to make sure that our fitted model can be generalized, i.e., the estimated model is not restricted to a particular part of the data or some particular dataset. 
 
 A classic mistake during model estimation is over-fitting. That is, the model has good performance in the training set, but has poor performance on the testing set.
 
 To address this issue, a common strategy is to dynamically allocate training points and testing points, a method termed cross validation. We conduct cross-validation by firstly fixing  the training set/testing set ratio, then dynamically assign the data points to these sets.
 
-In my study, I considered the following training-to-testing ratio: 6:4, 7:3 and 8:2. I then use the `StratifiedShuffleSplit()` method from `sklearn.model_selection` to shuffle the data points before splitting. Why should we shuffle the data before splitting? In our data, we have only 143 observations, with an imbalanced label: only 14 POI's against 130+ non-POI's. If we split data without shuffling, the test set may not maintain a relatively constant fraction of POI's, which will bias the fitting and testing result of certain fold, thus producing both larger bias and variance in the prediction errors. In one word, this method adds randomness (from shuffling) before allocating data points compared to the traditional `train_test_split()` method. This randomness is essential because the size of our dataset is too small and unbalanced.
+In my study, I considered the following training-to-testing ratio: 6:4, 7:3 and 8:2. I then use the `StratifiedShuffleSplit()` method from `sklearn.model_selection` to shuffle the data points before splitting. Why should we shuffle the data before splitting? In our data, we have only 143 observations, with an imbalanced label: only 14 POI's against 130+ non-POI's. If we split data without shuffling, the test set has lower probability of maintaining a relatively constant fraction of POI's, which will bias the fitting and testing result of certain fold, thus producing both larger bias and variance in the prediction errors. In one word, this method adds randomness (from shuffling) before allocating data points compared to the traditional `train_test_split()` method. This randomness is essential because the size of our dataset is too small and unbalanced.
 
 Using differnt training-to-testing set ratios, our result all yield stable accuracy, precision and recall metrics:
 
@@ -263,13 +263,13 @@ Pipeline(memory=None,
 The evaulation metrics that I choose are Precision and Recall. 
 
 **Why is Accuracy not suitable?**
-Accuracy is defined as the ratio of correctly predicted observation to the total observations (`double Accuracy = (TP+TN)/(TP+FP+FN+TN)`). This is a valid measure of model performance when the number of false positives and false negatives do not differ much and the distribution of the label variable is not significantly skewed to one class. However, in our Enron data set, the size of data is small and there are many more non-POI's than POI's. As a result, our models can have high overall accuracy (with low `FP` + `FN` in total), but with `FP`>>`FN` or `FP` << `FN`. That's the reason why we should look into other metrics, when we know that our data has some unique characteristics which can not be fully captured by conventional measures.
+Accuracy is defined as the ratio of correctly predicted observation to the total observations (`double Accuracy = (TP+TN)/(TP+FP+FN+TN)`). This is a valid measure of model performance when the number of false positives and false negatives do not differ much and the distribution of the label variable is not significantly skewed to one class. However, in our Enron data set, the size of data is small and there are many more non-POI's than POI's. If we only look at accuracy, we may encounter the case where we have high overall accuracy (with low `FP` + `FN` in total), but `FP`>>`FN` or `FP` << `FN`. That's the reason why we should look into other metrics, when we know that our data has some unique characteristics which can not be fully captured by conventional measures.
 
 **Precision**
 Precision is defined as `TP/TP+FP`. It is the fraction of correctly labelled POI's among all the labelled POI's. With a value of 0.40, it means that 40% of the POI's would not go unnoticed by our model.
 
 **Recall**
-Recall is defined as `TP/TP+FN`. It describes the model's ability of correctly identifying a POI, given that the person is indeed a POI. With a value of 0.40, it means that 40% of the POI's would not go unnoticed by our model.
+Recall is defined as `TP/TP+FN`. It describes the model's ability of correctly identifying a POI, given that the person is indeed a POI. With a value of 0.40, it means that 40% of the true POI's were successfully identified.
 
 Notice that at a magnitude of 40%, this metric is already very insightful for the Enron case. Our objective is to detect frauds, we do not want to miss any potential guilty person. This may come at a cost of falsely identifying some innocent person as criminal, but it is acceptable in our case.
 
@@ -277,7 +277,7 @@ Let us analyze the case where we have high precision, but low recall. High preci
 
 In the case where we have low precision and high recall, it means that we have a lot of persons falsely labelled as criminal. This is OK, because further investigation can help us rule out the culpability of those innocent.
 
-To sum up, I used precision and recal as my evaluation metrics. And I choose AdaBoost as my final model (precision 0.40 & recall 0.40). Due to the nature of our dataset, accuracy could only give us a loose impression of model fitness, and we need to look further into precision and recall values to determine whether our model can yield reliable predictions.
+To sum up, I used precision and recal as my evaluation metrics. And I choose AdaBoost as my final model (precision 0.40 & recall 0.40). Due to the nature of our dataset, accuracy could only give us a loose impression of model fitness, so we need to look further into precision and recall values to determine whether our model can yield reliable predictions.
 
 References:
 1. why should we shuffle?
