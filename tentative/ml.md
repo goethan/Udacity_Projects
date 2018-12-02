@@ -50,7 +50,7 @@ The features extracted from enron data belong to one of the 3 categories:
 
 As a quick summary, the dataset 
 - contains a total of 146 data points, of which 18 are POIs and 128 are not .
-- There are 14 financial features, 6 email features.
+- contains 14 financial features, 6 email features.
 
 ### Looking into NaN data.
 
@@ -91,11 +91,11 @@ There is clearly an outlier with both enormous salary and bonus. It turns out th
 
 ![salary-bonus-without-Total](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bouns-scatterplot-without-TOTAL.png)
 
-Graphically, there seem to be stil 4 outliers, either with unusually high salary or unusually high bonus. It turns out the the two observations with both high salary and bonus are SKILLING JEFFREY and LAY KENNETH, the two biggest bosses and poi's of Enron. We definitely shall keep these two observations. In addition, we have FREVERT MARK with exceptionally high salary and LAVORATO JOHN with exceptionally high bonus. After examination, we find that the values of the other features of these two persons seem to be consistent with similar observations, thus we will also keep them.
+Graphically, there seem to be still 4 outliers, either with unusually high salary or unusually high bonus. It turns out the the two observations with both high salary and bonus are SKILLING JEFFREY and LAY KENNETH, the two biggest bosses and poi's of Enron. We definitely shall keep these two observations. In addition, we have FREVERT MARK with exceptionally high salary and LAVORATO JOHN with exceptionally high bonus. After examination, we find that the values of the other features of these two persons seem to be consistent with similar observations, thus we will also keep them.
 
 ### Irrelevant data
 
-Besides, we are going to remove two observations. The first is named 'LOCKHART EUGENE E', because every feature of this person is NaN, thus it provides no information to help predict. The second is named ''THE TRAVEL AGENCY IN THE PARK'', because this is obviously not an enron employee, thus is irrelevant to our problem. 
+Besides, we are going to remove two observations. The first is named 'LOCKHART EUGENE E'. Every feature of this person is NaN, thus it provides no information to help predict. The second is named ''THE TRAVEL AGENCY IN THE PARK''. This is obviously not an Enron employee, thus is irrelevant to our problem. 
 
 In the end, we will have 143 observations to proceed.
 
