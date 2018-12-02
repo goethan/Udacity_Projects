@@ -160,6 +160,7 @@ Below is a table of the result from `SelectKBest` using `f_classif` and `mutual_
 |14|              to_messages|  0.019640|
 |15|  from_this_person_to_poi|  0.017733|
 
+
 -----------------------------------------------------------
 
 > Question 3. What algorithm did you end up using? What other one(s) did you try? How did model 
@@ -171,7 +172,7 @@ I decide to proceed with all the above algorithms except for `Gaussian Naive Bay
 1. When we improve our feature compositions, either one or all of the metrics (precision, recall) of these algorithms have significant improvement.
 2. By default, the tuning parameters have more degrees of freedom. 
 
-Here is a summary of the final model performances:
+Here is a summary of the final model performances **after parameter tuning**:
 
 ||Accuracy|	Precision|Recall|F1|F2|
 |--------|------|--------|-------|----------|---------|
@@ -183,7 +184,7 @@ Here is a summary of the final model performances:
 
 We notice that AdaBoost has the most balanced performance for accuracy, precision and recall. As a result, the F1 score, the harmonic mean of precision and recall, is also high. The F2 score is a weighted harmonic mean of precision and recall, and turns out to be highest among all algorithms chosen.
 
-LogisticRegression has comparable accuracy and precision but has low recall. Recall which measures the probability that the model can correctly spot a POI when the person is actually a POI. A low recall is unacceptable in our situation, where we want to find all the potential frauds.
+LogisticRegression has comparable accuracy and precision but has low recall. Recall measures the probability that the model can correctly spot a POI when the person is actually a POI. A low recall is unacceptable in our situation, where we want to find all the potential frauds.
 
 Our candidate for the final submission of the project will be Adaboost, and the feature used is the 14 features from SelectKBEST. As a quick sum, we have:
 
@@ -191,20 +192,18 @@ Our candidate for the final submission of the project will be Adaboost, and the 
 |AdaBoost-Precision:| 50%|
 |AdaBoost-Recall:|    40%|
 
------------------------------------------------------------ 
+## Algorithm Tuning
 
 > Question 4. What does it mean to tune the parameters of an algorithm, and what can happen if you 
-don’t do this well?  How did you tune the parameters of your particular algorithm? (Some 
-algorithms do not have parameters that you need to tune, if this is the case for the one 
-you picked, identify and briefly explain how you would have done it for the model that 
-was not your final choice or a different model that does utilize parameter tuning, e.g. a 
-decision tree classifier). 
+don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune, if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier). 
 
 Machine learning algorithms are developed with many parameters at modelers' disposal to suit model to the situation at hand. Since datasets are all different, it is natural that one may find 
 
 To tune parameters means that we adjust the parameters of the algorithms in order to improve our model prediction precision. Since each dataset has unique characteristics, it is reasonable to tune the parameters to see whether we are able to come up with a set of parameters to optimize the model performance.  
 
-However, if not done correctly, we may end up with a combination of parameters which are only perfect in the training set, but have large prediction errors when dealing with new data points. This situation is named overfitting, and this is one biggest downside of parameter tunning. We are going to use `Pipeline` and `GridSearchCV` modules from sklearn package to facilitate model comparison and implementaion.
+However, if not done correctly, we may end up with a combination of parameters which are only perfect in the training set, but have large prediction errors when dealing with new data points. This situation is named overfitting, and this is one biggest downside of parameter tunning. 
+
+We are going to use `Pipeline` and `GridSearchCV` modules from sklearn package to facilitate model comparison and implementaion.
 
 Our final choice is AdaBoost, a boosting algorithm. In theory, this algorithm is prone to overfitting when we have many weak learners which are also deep decision trees. However, it is proved that "as the number of weak learners (rounds of boosting) increases, the bias converges exponentially while the variance increases by geometrically diminishing magnitudes", hence its degree of overfitting is much weaker than most of other methods. Given our data, the parameter grid I choose is as follows:
 
@@ -225,13 +224,11 @@ n_estimators=50,
 random_state=0
 ```
 
-If our model did not do well, a good way of dealing with overfitting is cross validation, which we will discuss in more details in the next question. Our current result is already derived under 2-fold cross validation.
-
+Our current result is derived under 2-fold cross validation.
 
 -----------------------------------------------------------
 
-
-> 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
+> Question 5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis? 
 
 Validation refers to the set of techniques used to make sure that our fitted model can be generalized, i.e., the estimated model is not restricted  to a particular part of the data or some particular dataset. 
 
@@ -239,9 +236,17 @@ A classic mistake during model estimation is over-fitting. That is, the model ha
 
 To address this issue, a common strategy is to dynamically allocate training points and testing points, a method termed cross validation. We conduct cross-validation by firstly fixing  the training set/testing set ratio, then dynamically assign the data points to these sets.
 
-In my study, I considered the following training-to-testing ratios: 3:1, 4:1, 5:1. For each ratio I use the `StratifiedShuffleSplit()` method from `sklearn.model_selection` category. Why should shuffle the data before splitting? It is because the size of our data is small, and we have an imbalanced label with only 14 POI's against 130+ non-POI's. If we split data without shuffling, the test set may not maintain a relatively constant fraction of POI's, which will bias the fitting and testing result of certain k-fold, thus producing both larger bias and variance in the prediction errors. In one word, this method adds randomness (from shuffling) before allocating data points compared to the traditional `train_test_split()` method. This randomness is essential because the size of our dataset is too small and unbalanced.
+In my study, I considered the following training-to-testing ratio: 6:4, 7:3 and 8:2. I then use the `StratifiedShuffleSplit()` method from `sklearn.model_selection` to shuffle the data points before splitting. Why should we shuffle the data before splitting? In our data, we have only 143 observations, with an imbalanced label: only 14 POI's against 130+ non-POI's. If we split data without shuffling, the test set may not maintain a relatively constant fraction of POI's, which will bias the fitting and testing result of certain fold, thus producing both larger bias and variance in the prediction errors. In one word, this method adds randomness (from shuffling) before allocating data points compared to the traditional `train_test_split()` method. This randomness is essential because the size of our dataset is too small and unbalanced.
 
-Our result from `StratifiedShuffleSplit()` for AdaBoost is summarized as follows:
+Using differnt training-to-testing set ratios, our result all yield stable accuracy, precision and recall metrics:
+
+||6:4|7:3|8:2| 
+|---|---|---|---|
+|Accuracy|0.86|0.88|0.88|
+|Precision|0.333|0.4|0.4|
+|Recall|0.4|0.4|0.4|
+
+Our result from `StratifiedShuffleSplit()` for AdaBoost is summarized as follows: (with a training-to-testing ratio fixed at 7:3)
 
 ```python
 Pipeline(memory=None,
@@ -251,10 +256,9 @@ Pipeline(memory=None,
 	Total predictions:   50	True positives:    2	False positives:    3	False negatives:    3	True negatives:   42
 ```
 
-
 ----------------------------------------------------------------
 
-> 6. Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. 
+> Question 6. Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. 
 
 The evaulation metrics that I choose are Precision annd Recall. 
 
