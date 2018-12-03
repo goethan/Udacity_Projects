@@ -80,16 +80,16 @@ We notice significant amount of 'NaN's in data. Below is a table showing the fra
 |total_stock_value|	0.156250|	0.000000|	0.136986|
 |poi|	0.000000|	0.000000|	0.000000|
 
-We can not discard any data at this point, because the 'NaN's may not necessarily represent missing data. Indeed, they may well represent that the variable in question is of value zero. For example, if there are no director fees, the value of this variable should be zero, thus replacing the 'NaN's by zero may help us make influential predictions. This conjecture is supported by the `variable-descriptioin.pdf` document here, which gives information on how each variable is formed. We thus will proceed with the NaN's being replaced by zero.
+We can not discard any data at this point, because the 'NaN's may not necessarily represent missing data. Indeed, they may well represent that the variable in question is of value zero. For example, if there are no director fees, the value of this variable should be zero, thus replacing the 'NaN's by zero may help us make influential predictions. This conjecture is supported by the `enron61702insiderpay.pdf` in the `final_project` folder, which gives information on how each variable is formed. We thus will proceed with the NaN's being replaced by zero.
 
 ### Outliers
 
 To spot potential outliers, we start by plotting the scatterplot of the two most interesting variabels: `salary` and `bonus`.
-![alt text](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bous-scatterplot.png)
+![alt text](https://github.com/brbisheng/Udacity_Projects/blob/master/Data_Analyst_Project_5/supporting_materials/salary-bous-scatterplot.png)
 
 There is clearly an outlier with both enormous salary and bonus. It turns out that this outlier is named `TOTAL`, which is the sum of all other obervations. Thus we will remove this observation, and we obtain the following graph:
 
-![salary-bonus-without-Total](https://github.com/brbisheng/Udacity_Projects/blob/master/tentative/supporting_materials/salary-bouns-scatterplot-without-TOTAL.png)
+![salary-bonus-without-Total](https://github.com/brbisheng/Udacity_Projects/blob/master/Data_Analyst_Project_5/supporting_materials/salary-bouns-scatterplot-without-TOTAL.png)
 
 Graphically, there seem to be still 4 outliers, either with unusually high salary or unusually high bonus. It turns out the the two observations with both high salary and bonus are SKILLING JEFFREY and LAY KENNETH, the two biggest bosses and poi's of Enron. We definitely shall keep these two observations. In addition, we have FREVERT MARK with exceptionally high salary and LAVORATO JOHN with exceptionally high bonus. After examination, we find that the values of the other features of these two persons seem to be consistent with similar observations, thus we will also keep them.
 
