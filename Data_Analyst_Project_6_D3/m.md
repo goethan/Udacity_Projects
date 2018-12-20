@@ -60,6 +60,8 @@ Third try: with interactive lines.
   - https://d3indepth.com/scales/
 5. Add grid lines
   - https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
+6. Pop text, tooltips.
+  - https://stackoverflow.com/questions/10805184/show-data-on-mouseover-of-circle
 
 
 
