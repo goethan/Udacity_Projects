@@ -6,11 +6,17 @@ The objective is the examine the Chinese Stock market performance on Novmeber 20
 
 For this sake, I collected the following dataset from the website [iwencai](http://www.iwencai.com).
 
-We have 4 variables.
+We have the following variables variables.
 - To which extent they outperform the SSE Composite Index. 
-- And their ROEs for the last two years.
-- Industry
-- Market capitalization
+  - `outperform_sse`
+- ROEs for the last two years.
+  - `roe_perc_2016`
+  - `roe_perc_2017`
+- The industry of the firm
+  - `industry`
+- Market capitalization in unit of billions yuan
+  - `market_capitalization`
+  - 
 
 I want to find which industry outperformed the SSE Composite Index, so I grouped the data into different industries.
 
