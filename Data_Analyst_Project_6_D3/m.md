@@ -12,6 +12,7 @@ We have the following variables variables.
 - ROEs for the last two years.
   - `roe_perc_2016`
   - `roe_perc_2017`
+  - `bluechips`: A simple way of defining bluechip companies is to have consecutively 2 years of roe greater than 5%.
 - The industry of the firm
   - `industry`
 - Market capitalization in unit of billions yuan
