@@ -30,19 +30,26 @@ Firstly, I grouped the data by industry, and thought about using boxplot to exam
 
 ### Objective: 
 
-I use bar graph to compare which industry has better performance compared to the SSE indicator.
-
-elements.. 
-grid.
+I use bar chart to have a look at which industry has better performance compared to the SSE Composite index.
 
 ## Feedback
-反馈 - 包括从第一份草图到最后定稿，你从他人那里获得的关于你的可视化的所有反馈
+
 ### First version and feedback from the friend.
 
-The height of the bar represents the number of the ...
-There is no exact number.
+Features of the first try:
+1. The y-axis represents the percentage of companies which outperform the SSE Composite Index.
+2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies.
+3. Industries are ordered by the intrustrial level market capitalization.
+4. I use tooltips to enable audience to look into the exact number by moving mouse to the bars.
+5. I add grid.
+
+feedback:
+1. Graphically, there is no sign that the industries how you order the industries.
+2. For a value 0, the bar will not display, that is why we only have one bar for the category "综合". 
+3. The measure "percentage of companies which outperform the SSE Composite Index" is not very informative.
 
 Too many industries are present. Not enough information is transmitted.
+
 
 Have you noticed any features from this chart? (你在这个可视化中注意到什么？)
 Do you have problem with this data? (你对这个数据有什么问题吗？)
@@ -69,6 +76,8 @@ Third try: with interactive lines.
   - https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
 6. Pop text, tooltips.
   - https://stackoverflow.com/questions/10805184/show-data-on-mouseover-of-circle
+7. use d3.quantile when grouping variables.
+  - https://stackoverflow.com/questions/31705056/d3-key-rollups-using-quantiles
 
 
 
