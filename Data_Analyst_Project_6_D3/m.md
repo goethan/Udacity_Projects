@@ -34,9 +34,26 @@ I use bar chart to have a look at which industry has better performance compared
 
 ## Feedback
 
-### First version and feedback from the friend.
+### First Version and Feedback.
 
 Features of the first try:
+1. I use histogram to represent the extent to which the stocks outperform the SSE Composite Index by industry.
+2. The result is sorted by the median of industrial level performance
+
+Feedback:
+1. I learned that the median of all the industries are negative.
+2. It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
+3. Due to the event of ZTE, the telecommunication industry ('信息服务') has bad performance, and large variance.
+4. I understand that drawing histogram using d3 is not easy, but it seems that I can no longer see notice anything interesting apart from the above observations.
+5. I suggest that you do no know this histogram, but only use the bar chart to compare the average performance. You may want to compare the blue chips firms and the other firms within each industry.
+
+### Second version and feedback from the friend.
+
+Features of the second try:
+
+
+
+Features of the third try:
 1. The y-axis represents the percentage of companies which outperform the SSE Composite Index.
 2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies.
 3. Industries are ordered by the intrustrial level market capitalization.
