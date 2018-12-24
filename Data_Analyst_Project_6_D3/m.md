@@ -34,15 +34,17 @@ I want to find which industry outperformed the SSE Composite Index. `industry` i
 ### First Version and Feedback.
 
 Features of the first try:
-1. I use histogram to represent the extent to which the stocks outperform the SSE Composite Index by industry.
-2. The result is sorted by the median of industrial level performance
+1. I use boxplot to represent the extent to which the stocks outperform the SSE Composite Index by industry.
+2. The result is sorted by the median of industrial level performance.
 
 Feedback:
-1. I learned that the median of all the industries are negative.
-2. It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
-3. Due to the event of ZTE, the telecommunication industry ('信息服务') has bad performance, and large variance.
-4. I understand that drawing histogram using d3 is not easy, but it seems that I can no longer see notice anything interesting apart from the above observations.
-5. I suggest that you do no know this histogram, but only use the bar chart to compare the average performance. You may want to compare the blue chips firms and the other firms within each industry.
+1. What my friend learned from the chart: 
+  - the median of all the industries are negative.
+  - It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
+  - Due to the event of ZTE, the telecommunication industry ('信息服务') has reasonablly bad performance and large variance.
+2. Comments and suggestions
+  - comments: I understand that drawing boxplot using d3 is tricky, but it seems that one can hardly discover  anything interesting apart from the above observations.
+  - suggestions: I suggest that you do not use this complicated boxplot. Maybe you can try the bar chart to compare the average performances among industries. You may want to compare the blue chip firms and the other firms within the same industry.
 
 ## Second Try:
 
@@ -98,6 +100,8 @@ Third try: with interactive lines.
   - https://stackoverflow.com/questions/10805184/show-data-on-mouseover-of-circle
 7. use d3.quantile when grouping variables.
   - https://stackoverflow.com/questions/31705056/d3-key-rollups-using-quantiles
+8. boxplot
+  - https://beta.observablehq.com/@mbostock/d3-box-plot#margin
 
 
 
