@@ -24,7 +24,7 @@ I add the following variables.
 
 ## First try:
 
-I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and no natural order exists for this variable. So, in my first try, I grouped the data by industry, and thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
+Objective: I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and there is no natural ordering for this variable. So, in my first try, I grouped the data by industry, and I thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
 
 **Features of the first try:**
 
@@ -43,7 +43,7 @@ I want to find which industry outperformed the SSE Composite Index. `industry` i
 
 ## Second Try:
 
-I use bar chart to look at which industry has better performance compared to the SSE Composite index. I use the weigh the outperformance by each stock's market capitalization. I compare the blue chip and non blue chip firms.
+I use bar chart to look at which industry has better performance compared to the SSE Composite index. I weigh the extent of outperformance by each stock's market capitalization.
 
 **Features:**
 
