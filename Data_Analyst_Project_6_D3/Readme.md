@@ -54,15 +54,17 @@ I use bar chart to look at which industry has better performance compared to the
 **Feedback:**
 
 1. Comment and Suggestions:
-  - Comment: The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not have know why you want to distinguish between blue chip and non blue chip firms. I am more interested in whether the higher fraction of blue chip firms have better performance.
-  - Suggestions: It would be enough if you could focus on soemthing simple. Please come up with something simple which leaves the audience a clear idea of some pattern in your chart.
+  - Comment: The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not know why you want to distinguish between blue chip and non blue chip firms. 
+  - Suggestions: It would be enough if you could focus on something simple. Please try to leave the audience a clear idea of certain pattern in your chart. For example, I am interested in whether higher fraction of blue chip firms have better performance compared to the non blue chip firms.
 
 ## Third Try:
 
 Objective: I use grouped bar chart to examine whether blue chip firms perform better compared to non blue chip firms. 
 
 **Features:**
+
 Features of the third try:
+
 1. The y-axis represents the fraction of companies which outperform the SSE Composite Index.
 2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies. 
 3. Industries are ordered by the intrustrial level market capitalization.
