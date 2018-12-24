@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<meta charset="utf-8" /> 
+<style>
+
+.axis .domain {
+  display: none;
+}
+
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+line {
+  stroke: gray;
+}
+
+</style>
+<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+// const width = 900;
+// const n = width / 40;
+// const margin = ({top: 20, right: 20, bottom: 30, left: 40});
+// const height = 600;
+
+
+d3.csv("3.csv", function(data) {
+
+	// Sort data by median industry outperformance.
+	flatdata = data.sort(
+		function(x, y){
+			return d3.ascending(
+			+x.q2, +y.q2);});
+	
+	dothejob(flatdata);
+
+	});
+
+function dothejob(data) {
+	
+	var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 70, left: 30},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+	g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+
+	// x range.
+	var x = d3.scaleBand()
+    .rangeRound([0, width])
+    .paddingInner(0.1);
+
+	// y range.
+	var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+	
+	// associate data with x-axis
+	x.domain(data.map(
+		function(d) { return d.industry; }));
+	
+	// the bandwidth is 34 pixels
+	console.log(x.bandwidth());
+	
+	// y-axis data domain.
+	y.domain([-65, 100]).nice();
+	
+	// add x direction grid.
+	g.append("g")
+      .attr('class', 'grid')
+      .call(d3.axisLeft(y)
+        .tickSize(-width, 0, 0)
+        .tickFormat('')
+      );
+	
+	
+	// console.log(data);
+	
+	// I now nest data by industry.
+	var nested_data = d3.nest()
+	.key(
+		function(d) { 
+			return d['industry']; })
+	.rollup(
+		function(leaves) { 
+			return {"length": leaves.length,
+			"min": d3.min(leaves, function(d) {return d['min']}),
+			"max": d3.max(leaves, function(d) {return d.max}),
+			"q1": d3.min(leaves, function(d) {return d.q1}),
+			"q2": d3.min(leaves, function(d) {return d.q2}),
+			"q3": d3.min(leaves, function(d) {return d.q3}),
+			"r0": d3.min(leaves, function(d) {return d.r0}),
+			"r1": d3.min(leaves, function(d) {return d.r1}),
+			"outlier": leaves.filter(function(d){
+				return +d.outlier ===1
+			})	
+			}
+			})
+	.entries(data);
+	
+	console.log(nested_data);
+	
+	// I now transform the nested data.
+	var bins = [];
+	for (var i = 0; i<nested_data.length; i++){
+		bins.push(
+		{industry: nested_data[i].key,
+		min: nested_data[i].value.min,
+		max: nested_data[i].value.max,
+		q1: nested_data[i].value.q1,
+		q2: nested_data[i].value.q2,
+		q3: nested_data[i].value.q3,
+		iqr: nested_data[i].value.q3 - nested_data[i].value.q1,
+		r0: nested_data[i].value.r0,
+		r1: nested_data[i].value.r1,
+		outliers: nested_data[i].value.outlier})
+	};
+	console.log(bins);
+	
+	// get all the industries.
+	var industries = [];
+	for (var i=0; i < nested_data.length; i++) {
+		industries.push(nested_data[i].key);
+	}
+	// console.log(industries);
+	
+	// Append the vertical path
+	
+	g.append("g").selectAll("g")
+    .data(bins)
+    .enter().append("g")
+	.append("path")
+      .attr("stroke", "currentColor")
+      .attr("d", function(d) {
+	  //debugger;
+		return `M${(x(d["industry"])+17)}, ${y(+d["r0"])}
+        V${y(+d["r1"])}`
+	  })
+	
+	// Append the box
+	g.append("g").selectAll("g")
+    .data(bins)
+    .enter().append("g").append("path")
+      .attr("fill", "#DDD")
+      .attr("d", function (d) {
+		
+		return `M${x(d.industry)},${y(d["q3"])}
+		H${x(d.industry) + 34}
+		V${y(+d["q1"])}
+        H${x(d.industry)}
+        Z`
+	  })
+	  
+	// Append the median
+	g.append("g").selectAll("g")
+    .data(bins)
+    .enter().append("g")
+	.append("path")
+      .attr("stroke", "currentColor")
+      .attr("stroke-width", 2)
+      .attr("d", function (d){
+		return `M${x(d.industry) + 1},${y(d.q2)}
+        H${x(d.industry) + 34}`
+	  })
+	
+	// Append the outliers.
+	g.append("g").selectAll("g")
+    .data(bins)
+    .enter().append("g")
+      .attr("fill", "currentColor")
+      .attr("fill-opacity", 0.2)
+      .attr("stroke", "none")
+      .attr("transform", function(d) {
+	  return 
+	  `translate(${(x(d.industry) + 34) /2},0)
+	  `
+	  })
+	.selectAll("circle")
+    .data(function(d) {
+	//debugger;
+		return d.outliers
+	})
+    .enter().append("circle")
+      .attr("r", 4)
+      .attr("cx", function(d) {return x(d.industry) + (Math.random() - 0.5) + 17})
+      .attr("cy", function (d) {return y(d.outperform_sse)} )
+	  .attr("opacity", 1);
+	  
+	// Append x axis
+	g.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+	  .selectAll("text")
+		.style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+		.attr("transform", "rotate(-45)");
+	  
+	// append Y axis.
+	g.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(y).ticks(null, "s"))
+    .append("text")
+      .attr("x", -230)
+      .attr("y", y(y.ticks().pop()) + 2)
+      .attr("dy", "0.32em")
+      .attr("fill", "#000")
+	  .attr("font-size", "11px")
+      .attr("font-weight", "bold")
+      .attr("text-anchor", "start")
+      .text("Percentage of stocks outforming SSE Index").attr("transform", "rotate(-90)")
+      .attr("dy", "0.32em");
+	  
+	svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + (height + margin.top + 60) + ")")
+      .style("text-anchor", "middle")
+      .text("Industry");
+	
+	svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + (0 + margin.top) + ")")
+      .style("text-anchor", "middle")
+      .text("Stock performance relative to the SSE Composite indicator by Industry");
+ 
+}
+
+
+</script>
+
+
+
+<html>
+	
+<body>
+
+<h1>First Try</h1>
+
+<svg width="960" height="600"></svg>
+
+<div>
+</div>
+</body>
+
+</html>
