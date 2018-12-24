@@ -2,6 +2,8 @@
 
 The objective is to examine the Chinese Stock market performance in 2018. The data is collected from the website [iwencai](http://www.iwencai.com), using the following keywords: `上市天数大于730天,2018年1月1日到2018年12月19日跑赢大盘或2018年1月1日到2018年12月19日跑输大盘,连续2年的roe,2018年12月19日总市值,所属同花顺一级行业,股票,非ST`.
 
+**The term `SSE` is short for Shanghai Stock Exchange.**
+
 We have the following key variables in the data.
 - `outperform_sse` 
   - %. To which extent they outperform the SSE Composite Index.
@@ -54,12 +56,12 @@ Objective: I use *bar chart* to look at which industry has better performance on
 **Feedback:**
 
 1. Comment and Suggestions:
-  - Comment: The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not know why you want to distinguish between blue chip and non blue chip firms. 
+  - Comment: The chart appears to give very noisy information without a consistent pattern. Based on your chart, the audience would not know why you want to distinguish between blue chip and non blue chip firms. 
   - Suggestions: It would be much better if you could focus on something simple. Please try to convey to the audience a clear idea of certain pattern in your chart. For example, I am interested in whether higher fraction of blue chip firms have better performance compared to the non blue chip firms.
 
 ## Third Try:
 
-Objective: I use grouped bar chart to examine whether blue chip firms perform better compared to non blue chip firms. 
+Objective: I use grouped bar chart to examine whether there is higher fraction of blue chip firms which outperform the SSE Index than that of non blue chip firms. 
 
 **Features:**
 
