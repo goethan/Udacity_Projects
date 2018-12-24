@@ -1,8 +1,8 @@
 ## Data description:
 
-The objective is to examine the Chinese Stock market performance in 2018. For this sake, I collected the dataset from the website [iwencai](http://www.iwencai.com).
+The objective is to examine the Chinese Stock market performance in 2018. The data is collected from the website [iwencai](http://www.iwencai.com), using the following keywords: `上市天数大于730天,2018年1月1日到2018年12月19日跑赢大盘或2018年1月1日到2018年12月19日跑输大盘,连续2年的roe,2018年12月19日总市值,所属同花顺一级行业,股票,非ST`.
 
-We have the following key variables.
+We have the following key variables in the data.
 - `outperform_sse` 
   - %. To which extent they outperform the SSE Composite Index.
 - `roe_perc_2016` and `roe_perc_2017`
@@ -15,7 +15,7 @@ We have the following key variables.
   - Market capitalization in unit of billions yuan
 
 
-The data is cleaned so that I add the following variables for convenience.
+I add the following variables.
  - `min`, `q1`, `q2`, `q3`, `max` represent respectively the min, first, second, third quartile and max.
  - `r0` and `r1` represent the represent respectively the range excluding the outliers.
  - `outlier`: dummy. `is outlier ? 1 : 0`
@@ -26,17 +26,12 @@ The data is cleaned so that I add the following variables for convenience.
 
 I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and no natural order exists for this variable. So, in my first try, I grouped the data by industry, and thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
 
-概要 - 不超过 4 句，简要介绍你的数据可视化和添加任何有助于读者理解的背景信息
-设计 - 解释你的设计选择，包括在收集反馈后对可视化做的更改
-
-### First Version and Feedback.
-
-Features of the first try:
+**Features of the first try:**
 
 1. I use boxplot to represent the extent to which the stocks outperform the SSE Composite Index by industry.
 2. The result is sorted by the median of industrial level performance.
 
-Feedback:
+**Feedback:**
 
 1. What my friend learned from the chart: 
   - the median of all the industries are negative.
@@ -50,15 +45,13 @@ Feedback:
 
 I use bar chart to look at which industry has better performance compared to the SSE Composite index. I use the weigh the outperformance by each stock's market capitalization. I compare the blue chip and non blue chip firms.
 
-### Second version and feedback from the friend.
-
-Features:
+**Features:**
 
 1. Bar chart is used.
 2. For each stock, I weigh its outperformance level by its market capitalization level, then sum to find the industry performance.
 3. For each industry, I compare blue chip and non blue chip firms.
 
-Feedback:
+**Feedback:**
 
 1. Comment and Suggestions:
   - Comment: 
