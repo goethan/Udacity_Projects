@@ -5,6 +5,8 @@
 - Third try: `Index3.html`
 - Data: `3.csv`
 
+(It may be necessary that these files be downloaded to the same folder in the local machine, to check the result. Sorry for this inconvenience.)
+
 ## Data description:
 
 The objective is to examine the Chinese Stock market performance in 2018. The data is collected from the website [iwencai](http://www.iwencai.com), using the following keywords: `上市天数大于730天,2018年1月1日到2018年12月19日跑赢大盘或2018年1月1日到2018年12月19日跑输大盘,连续2年的roe,2018年12月19日总市值,所属同花顺一级行业,股票,非ST`.
