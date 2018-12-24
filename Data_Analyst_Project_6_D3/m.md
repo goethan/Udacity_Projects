@@ -1,38 +1,35 @@
-### Quetions
+## Data description:
 
-### Data description:
+The objective is to examine the Chinese Stock market performance in 2018. For this sake, I collected the dataset from the website [iwencai](http://www.iwencai.com).
 
-The objective is the examine the Chinese Stock market performance on Novmeber 2018.
-
-For this sake, I collected the following dataset from the website [iwencai](http://www.iwencai.com).
-
-We have the following variables variables.
-- To which extent they outperform the SSE Composite Index. 
-  - `outperform_sse`
-- ROEs for the last two years.
-  - `roe_perc_2016`
-  - `roe_perc_2017`
-  - `bluechips`: A simple way of defining bluechip companies is to have consecutively 2 years of roe greater than 5%.
-- The industry of the firm
-  - `industry`
-- Market capitalization in unit of billions yuan
-  - `market_capitalization`
-  - 
-
-I want to find which industry outperformed the SSE Composite Index, so I grouped the data into different industries.
-
-Firstly, I grouped the data by industry, and thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
-
-概要 - 不超过 4 句，简要介绍你的数据可视化和添加任何有助于读者理解的背景信息
-设计 - 解释你的设计选择，包括在收集反馈后对可视化做的更改
+We have the following key variables.
+- `outperform_sse` 
+  - %. To which extent they outperform the SSE Composite Index.
+- `roe_perc_2016` and `roe_perc_2017`
+  -  ROEs for the last two years.
+- `bluechips`
+  - A simple way of defining blue chip companies is to have consecutively 2 years of ROE greater than 5%. The ROE should also be increasing.
+- `industry`
+  - The industry of the firm
+- `market_capitalization`
+  - Market capitalization in unit of billions yuan
 
 
+The data is cleaned so that I add the following variables for convenience.
+ - `min`, `q1`, `q2`, `q3`, `max` represent respectively the min, first, second, third quartile and max.
+ - `r0` and `r1` represent the represent respectively the range excluding the outliers.
+ - `outlier`: dummy. `is outlier ? 1 : 0`
+ - `weight`: market capitalization of the firm divided by market capitalization of the industry
+ - `weighted_outperformance`: `weight` * `market_capitalization`
+
+## First try:
 
 ### Objective: 
 
-I use bar chart to have a look at which industry has better performance compared to the SSE Composite index.
+I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and no natural order exists for this variable. So, in my first try, I grouped the data by industry, and thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
 
-## Feedback
+概要 - 不超过 4 句，简要介绍你的数据可视化和添加任何有助于读者理解的背景信息
+设计 - 解释你的设计选择，包括在收集反馈后对可视化做的更改
 
 ### First Version and Feedback.
 
@@ -46,6 +43,12 @@ Feedback:
 3. Due to the event of ZTE, the telecommunication industry ('信息服务') has bad performance, and large variance.
 4. I understand that drawing histogram using d3 is not easy, but it seems that I can no longer see notice anything interesting apart from the above observations.
 5. I suggest that you do no know this histogram, but only use the bar chart to compare the average performance. You may want to compare the blue chips firms and the other firms within each industry.
+
+## Second Try:
+
+### Objective: 
+
+I use bar chart to have a look at which industry has better performance compared to the SSE Composite index.
 
 ### Second version and feedback from the friend.
 
