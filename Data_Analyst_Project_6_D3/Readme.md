@@ -54,32 +54,28 @@ I use bar chart to look at which industry has better performance compared to the
 **Feedback:**
 
 1. Comment and Suggestions:
-  - Comment: 
-    - The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not have know why you want to distinguish between blue chip and non blue chip firms. I am more interested in whether the higher fraction of blue chip firms have better performance.
+  - Comment: The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not have know why you want to distinguish between blue chip and non blue chip firms. I am more interested in whether the higher fraction of blue chip firms have better performance.
   - Suggestions: It would be enough if you could focus on soemthing simple. Please come up with something simple which leaves the audience a clear idea of some pattern in your chart.
 
 ## Third Try:
 
+Objective: I use grouped bar chart to examine whether blue chip firms perform better compared to non blue chip firms. 
 
-
-2. For a value 0, the bar will not display, that is why we only have one bar for the category "综合". 
-3. The measure "percentage of companies which outperform the SSE Composite Index" is not very informative.
-
-Too many industries are present. Not enough information is transmitted.
-
-
-## Third Try:
-
-I use bar chart to look at which industry has better performance compared to the SSE Composite index.
-
-
-
+**Features:**
 Features of the third try:
-1. The y-axis represents the percentage of companies which outperform the SSE Composite Index.
-2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies.
+1. The y-axis represents the fraction of companies which outperform the SSE Composite Index.
+2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies. 
 3. Industries are ordered by the intrustrial level market capitalization.
 4. I use tooltips to enable audience to look into the exact number by moving mouse to the bars.
 5. I add grid.
+
+**Feedback:**
+Feedback:
+1. Comment and Suggestions:
+  - Comment: It is clear from this chart that the fraction of blue chip firms which outperform the SSE index is in general higher than the non blue chip firms.
+  - Suggestions: In the future, you may want to include addtional charts to give audience more information, such as the relationship between the market capitalization, and the extent to which the stocks outperform the SSE Index.
+
+
 
 ## Resources:
 1. Negative bar values..
