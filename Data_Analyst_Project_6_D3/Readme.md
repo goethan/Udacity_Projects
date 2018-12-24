@@ -24,7 +24,7 @@ I add the following variables.
 
 ## First try:
 
-Objective: I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and there is no natural ordering for this variable. So, in my first try, I grouped the data by industry, and I thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
+Objective: I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and there is no natural ordering for this variable. So, in my first try, I grouped the data by industry, and I thought about using *boxplot* to examine to which extent the industry outperforms the SSE Composite Index.
 
 **Features of the first try:**
 
@@ -34,7 +34,7 @@ Objective: I want to find which industry outperformed the SSE Composite Index. `
 **Feedback:**
 
 1. What my friend learned from the chart: 
-  - the median of all the industries are negative.
+  - The median of all the industries are negative.
   - It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
   - Due to the event of ZTE, the telecommunication industry ('信息服务') has reasonablly bad performance and large variance.
 2. Comments and suggestions
@@ -43,19 +43,19 @@ Objective: I want to find which industry outperformed the SSE Composite Index. `
 
 ## Second Try:
 
-I use bar chart to look at which industry has better performance compared to the SSE Composite index. I weigh the extent of outperformance by each stock's market capitalization.
+Objective: I use *bar chart* to look at which industry has better performance on average compared to the SSE Composite index. 
 
 **Features:**
 
 1. Bar chart is used.
-2. For each stock, I weigh its outperformance level by its market capitalization level, then sum to find the industry performance.
+2. The y-axis represents the weighted average of industry performance compared to the SSE Index. I distinguish between blue chip and non blue chip firms.
 3. For each industry, I compare blue chip and non blue chip firms.
 
 **Feedback:**
 
 1. Comment and Suggestions:
   - Comment: The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not know why you want to distinguish between blue chip and non blue chip firms. 
-  - Suggestions: It would be enough if you could focus on something simple. Please try to leave the audience a clear idea of certain pattern in your chart. For example, I am interested in whether higher fraction of blue chip firms have better performance compared to the non blue chip firms.
+  - Suggestions: It would be much better if you could focus on something simple. Please try to convey to the audience a clear idea of certain pattern in your chart. For example, I am interested in whether higher fraction of blue chip firms have better performance compared to the non blue chip firms.
 
 ## Third Try:
 
@@ -66,7 +66,7 @@ Objective: I use grouped bar chart to examine whether blue chip firms perform be
 Features of the third try:
 
 1. The y-axis represents the fraction of companies which outperform the SSE Composite Index.
-2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the performance of blue chips companies and non blue chips companies. 
+2. I use grouped bar charts to compare industry level performance. Given Industry, I compare the fraction of firms which outperform the SSE index, and I distinguish between blue chips and non blue chips companies. 
 3. Industries are ordered by the intrustrial level market capitalization.
 4. I use tooltips to enable audience to look into the exact number by moving mouse to the bars.
 5. I add grid.
@@ -74,7 +74,7 @@ Features of the third try:
 **Feedback:**
 Feedback:
 1. Comment and Suggestions:
-  - Comment: It is clear from this chart that the fraction of blue chip firms which outperform the SSE index is in general higher than the non blue chip firms.
+  - Comment: It is clear from this chart that the fraction of blue chip firms which outperform the SSE index is higher than those non blue chip firms on average.
   - Suggestions: In the future, you may want to include addtional charts to give audience more information, such as the relationship between the market capitalization, and the extent to which the stocks outperform the SSE Index.
 
 
