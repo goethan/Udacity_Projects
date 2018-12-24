@@ -102,6 +102,8 @@ Third try: with interactive lines.
   - https://stackoverflow.com/questions/31705056/d3-key-rollups-using-quantiles
 8. boxplot
   - https://beta.observablehq.com/@mbostock/d3-box-plot#margin
+9. vertical bars with negative values.
+  - https://bl.ocks.org/datafunk/8a17b5f476a40a08ed17
 
 
 
