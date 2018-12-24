@@ -24,8 +24,6 @@ The data is cleaned so that I add the following variables for convenience.
 
 ## First try:
 
-### Objective: 
-
 I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and no natural order exists for this variable. So, in my first try, I grouped the data by industry, and thought about using boxplot to examine to which extent the industry outperform the SSE Composite Index.
 
 概要 - 不超过 4 句，简要介绍你的数据可视化和添加任何有助于读者理解的背景信息
@@ -34,10 +32,12 @@ I want to find which industry outperformed the SSE Composite Index. `industry` i
 ### First Version and Feedback.
 
 Features of the first try:
+
 1. I use boxplot to represent the extent to which the stocks outperform the SSE Composite Index by industry.
 2. The result is sorted by the median of industrial level performance.
 
 Feedback:
+
 1. What my friend learned from the chart: 
   - the median of all the industries are negative.
   - It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
@@ -48,13 +48,36 @@ Feedback:
 
 ## Second Try:
 
-### Objective: 
-
-I use bar chart to have a look at which industry has better performance compared to the SSE Composite index.
+I use bar chart to look at which industry has better performance compared to the SSE Composite index. I use the weigh the outperformance by each stock's market capitalization. I compare the blue chip and non blue chip firms.
 
 ### Second version and feedback from the friend.
 
-Features of the second try:
+Features:
+
+1. Bar chart is used.
+2. For each stock, I weigh its outperformance level by its market capitalization level, then sum to find the industry performance.
+3. For each industry, I compare blue chip and non blue chip firms.
+
+Feedback:
+
+1. Comment and Suggestions:
+  - Comment: 
+    - The chart appears to be very noisy without a consistent pattern. Based on your chart, the audience would not have know why you want to distinguish between blue chip and non blue chip firms. I am more interested in whether the higher fraction of blue chip firms have better performance.
+  - Suggestions: It would be enough if you could focus on soemthing simple. Please come up with something simple which leaves the audience a clear idea of some pattern in your chart.
+
+## Third Try:
+
+
+
+2. For a value 0, the bar will not display, that is why we only have one bar for the category "综合". 
+3. The measure "percentage of companies which outperform the SSE Composite Index" is not very informative.
+
+Too many industries are present. Not enough information is transmitted.
+
+
+## Third Try:
+
+I use bar chart to look at which industry has better performance compared to the SSE Composite index.
 
 
 
@@ -65,27 +88,7 @@ Features of the third try:
 4. I use tooltips to enable audience to look into the exact number by moving mouse to the bars.
 5. I add grid.
 
-feedback:
-1. Graphically, there is no sign that the industries how you order the industries.
-2. For a value 0, the bar will not display, that is why we only have one bar for the category "综合". 
-3. The measure "percentage of companies which outperform the SSE Composite Index" is not very informative.
-
-Too many industries are present. Not enough information is transmitted.
-
-
-Have you noticed any features from this chart? (你在这个可视化中注意到什么？)
-Do you have problem with this data? (你对这个数据有什么问题吗？)
-Are you able to notice the relationship between the variables? (你是否注意到数据关系？)
-What information do you think the author would like to convey?  (你觉得这个可视化主要表达了什么？)
-Is there anything unclear about this chart? (这个图形中你有什么不明白的地方吗？)
-
-Second try:
-
-Third try: with interactive lines.
-
-
-
-### Resources:
+## Resources:
 1. Negative bar values..
   - https://bl.ocks.org/mbostock/2368837
 2. Grouped Bar Chart
