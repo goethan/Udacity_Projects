@@ -6,7 +6,7 @@ The objective is to examine the Chinese Stock market performance in 2018. The da
 
 We have the following key variables in the data.
 - `outperform_sse` 
-  - %. To which extent they outperform the SSE Composite Index.
+  - %. To which extent the stock outperforms the SSE Composite Index.
 - `roe_perc_2016` and `roe_perc_2017`
   -  ROEs for the last two years.
 - `bluechips`
@@ -19,29 +19,29 @@ We have the following key variables in the data.
 
 I add the following variables.
  - `min`, `q1`, `q2`, `q3`, `max` represent respectively the min, first, second, third quartile and max.
- - `r0` and `r1` represent the represent respectively the range excluding the outliers.
+ - `r0` and `r1` represent respectively the range, excluding the outliers.
  - `outlier`: dummy. `is outlier ? 1 : 0`
- - `weight`: market capitalization of the firm divided by market capitalization of the industry
+ - `weight`: market capitalization of the firm divided by market capitalization of the industry.
  - `weighted_outperformance`: `weight` * `market_capitalization`
 
 ## First try:
 
-Objective: I want to find which industry outperformed the SSE Composite Index. `industry` is a categorical variable, and there is no natural ordering for this variable. So, in my first try, I grouped the data by industry, and I thought about using *boxplot* to examine to which extent the industry outperforms the SSE Composite Index.
+Objective: I want to examine the stock performance compared to the SSE Composite Index by industry. `industry` is a categorical variable, and there is no natural ordering for this variable. So, in my first try, I grouped the data by industry, and I thought about using *boxplot* to examine to which extent the industry outperforms the SSE Composite Index.
 
 **Features of the first try:**
 
 1. I use boxplot to represent the extent to which the stocks outperform the SSE Composite Index by industry.
-2. The result is sorted by the median of industrial level performance.
+2. The industry is sorted by the median of industrial level performance.
 
 **Feedback:**
 
 1. What my friend learned from the chart: 
   - The median of all the industries are negative.
-  - It seems that industries related to food expenditures and consumption ('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
+  - It seems that industries related to food expenditures and consumption etc.('食品饮料', '纺织服装', '餐饮旅游') perform better than others and have less variation in returns. 
   - Due to the event of ZTE, the telecommunication industry ('信息服务') has reasonablly bad performance and large variance.
 2. Comments and suggestions
-  - comments: I understand that drawing boxplot using d3 is tricky, but it seems that one can hardly discover  anything interesting apart from the above observations.
-  - suggestions: I suggest that you do not use this complicated boxplot. Maybe you can try the bar chart to compare the average performances among industries. You may want to compare the blue chip firms and the other firms within the same industry.
+  - Comments: I understand that drawing boxplot using d3 is tricky, but it seems that one can hardly discover  anything interesting apart from the above observations.
+  - Suggestions: I suggest that you do not use this complicated boxplot. Maybe you can try the bar chart to compare the average performances among industries. You may want to compare the blue chip firms and the other firms within the same industry.
 
 ## Second Try:
 
